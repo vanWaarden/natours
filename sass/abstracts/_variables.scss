@@ -1,0 +1,34 @@
+// BOX-SHADOW
+$box-shadow-small: 0 1.5rem 4rem rgba(#000, .2);
+
+// COLORS
+$color-primary: #55c57a;
+$color-primary-light: #7ed56f;
+$color-primary-dark: #28b485;
+
+$color-secundary-light: #ffb900;
+$color-secundary-dark: #ff7730;
+
+$color-tertiary-light: #2998ff;
+$color-tertiary-dark: #5643fa;
+
+$color-light-grey-1: #f7f7f7;
+$color-light-grey-2: #eee;
+
+$color-dark-grey: #777;
+$color-dark-grey-2: #999;
+$color-dark-grey-3: #333;
+
+$color-white: #fff;
+$color-black: #000;
+
+// FONT
+$default-font-size: 1.6rem; // 16px
+
+// GRID
+$grid-width: 114rem; // 1140px (standard used)
+$gutter-vertical: 8rem; // 80px
+$gutter-vertical-small: 6rem; // 60px
+$gutter-horizontal: 6rem; 
+
+// alles met cijfers kan je variables van maken. Zoals z-index, alle margins, alle font-sizes. 

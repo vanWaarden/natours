@@ -1,0 +1,223 @@
+.card {
+    // FUNCTIONALITY
+    // have to make the perspective in the parent element. 
+    perspective: 150rem;
+    // to make it work in firefox as well:
+    -moz-perspective: 150rem;
+    position: relative;
+    height: 52rem;
+
+    &__side {
+        // font-size: 2rem;
+        height: 52rem;
+        transition: all .8s ease;
+
+        // to position them both on top of one another:
+        position: absolute; // the cards are now taken out off their natural flow by setting them to absolute. Therefor the parent collapsed and lost its height. When this happens with floats, we have a clearfix. But with position absolute, there is actually no such thing. So we have to specify the same hight to the card itself. 
+        top: 0;
+        left: 0;
+        width: 100%;
+        // to hide a back part of an element if we set it to hidden. When we rotated the front card before we saw the front text from te back, so we saw the back of the front side. And now we wwill no longer be able to see that back part:
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        border-radius: 3px;
+        // we set the overflow property to hidden because the images are overflowing the parent element and you no longer see the border radius (small edge on the corners) anymore on the two top corners. Where the corners are, the image should not be. 
+        overflow: hidden;
+        box-shadow: $box-shadow-small;
+
+        &--front{
+            background-color: $color-white;
+        }
+
+        &--back{
+            transform: rotateY(180deg); // the backside is already flipped 180deg. 
+
+            &-1{
+                background-image: linear-gradient(to right bottom, $color-secundary-light, $color-secundary-dark);
+            }
+
+            &-2{
+                background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary-dark);
+            }
+
+            &-3{
+                background-image: linear-gradient(to right bottom, $color-tertiary-light, $color-tertiary-dark);
+            }
+        }
+    }
+
+    // when we hover the card, we want the side to transform
+    &:hover &__side--front{
+        transform: rotateY(-180deg);
+    }
+
+    &:hover &__side--back{
+        transform: rotateY(0);
+    }
+
+    // FRONT SIDE STYLING
+    &__picture{
+        background-size: cover;
+        height: 23rem;
+        // without the background-blend-mode set, you only see the linear-gradient and not the image. new property so it doesnt work on internet explorer and microsoft edge. There are more options than screen: saturation, overlay, normal, multiply, color, color-burn, color-dodge, darken, difference, exclusion, hard-light, hue, inherit, initial, lighten, luminosity, soft-light. Can change it in the the developer tools in chrome to see the differences.    
+        background-blend-mode: screen; 
+        // we want the image to be cut off at the bottom a bit so use clip-path for that again. Fill in the coordinates in this direction for: top left corner, top right corner, bottom right corner, bottom left corner:
+        // to make it work in all the browsers:
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); //first the prefix, then the normal version:
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        // have to set this manually because somehow with the clip-path for the second and third card the image still overflows the card. So the corners were not rounded anymore. 
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+
+        &--1{
+            background-image: linear-gradient(to right bottom, $color-secundary-light, $color-secundary-dark), url(../img/nat-5.jpg);
+        }
+
+        &--2{
+            background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary-dark), url(../img/nat-6.jpg);
+        }
+
+        &--3{
+            background-image: linear-gradient(to right bottom, $color-tertiary-light, $color-tertiary-dark), url(../img/nat-7.jpg);
+        }
+    }
+
+    &__heading{
+        font-size: 2.8rem;
+        font-weight: 300;
+        text-transform: uppercase;
+        color: $color-white;
+        // we want it to be on top of the image so we have to use absolute positioning once again:
+        position: absolute;
+        top: 12rem;
+        right: 4.5rem;
+        width: 75%;
+        text-align: center;
+    }
+    // its not a modifer of heading. its a new element. 
+    &__heading-span{
+        // the element is treated as one element. the sea and explorer are 1 element. so padding left applies left to "the" and padding right applies right to "explorer". As we want these to lines to be treated as if they were two different elements, we have to use box-decoration-break proerty and set it to clone. doenst work in chrome without the prefix. 
+        padding: 1rem 1.5rem;
+        // display: inline-block;
+        width: 75%;
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone; // clone simply applies all the decorations that we have in the selector, to all of the boxes that I created by an element. One element, two boxes, both styled. 
+
+        // give it nice linear-gradient. 
+        &--1{
+            background-image: linear-gradient(to right bottom, 
+            rgba($color-secundary-light, .85), 
+            rgba($color-secundary-dark, .85));
+        }
+
+        &--2{
+            background-image: linear-gradient(to right bottom, 
+            rgba($color-primary-light, .85), 
+            rgba($color-primary-dark, .85));
+        }
+
+        &--3{
+            background-image: linear-gradient(to right bottom, 
+            rgba($color-tertiary-light, .85), 
+            rgba($color-tertiary-dark, .85));
+        }
+    }
+
+    &__details{
+        padding: 3rem;
+        ul{
+            list-style: none;
+            width: 80%;
+            // we want to center a block element inside a block element. The simplest way of doing that is:
+            margin: 0 auto; // 0 top and bottom, left and right automatically calculated by the browser.
+            // we want more space at the bottom of the card. we can do that by making the entire height of the card bigger. So 52rem instead of 50rem. 
+
+            li{
+                text-align: center;
+                font-size: 1.5rem;
+                padding: 1rem;
+
+                &:not(:last-child){
+                    border-bottom: 1px solid $color-light-grey-2;
+                }
+            }
+        }
+    }
+
+    // BACK SIDE STYLING
+    &__cta{
+        position: absolute;
+        // to center it:
+        top: 50%;
+        left: 50%; // of the parent.
+        transform: translate(-50%, -50%); // -50% of the width of the element, and 50% of the height as well.
+        width: 90%; 
+        text-align: center;
+    }
+
+    &__price-box{
+        text-align: center;
+        color: $color-white;
+        margin-bottom: 8rem;
+
+    }
+
+    &__price-only{
+        font-size: 1.8rem;
+        text-transform: uppercase;
+
+    }
+
+    &__price-value{
+        font-size: 6rem;
+        font-weight: 100;
+    }
+
+    //@include respond(tab-port) {
+        @media only screen and (max-width: 56.25em), // max width 56.25 or
+                only screen and (hover: none) { // if its a touch device
+
+        height: auto;
+        border-radius: 3px;
+        background-color: $color-white;
+        box-shadow: 0 1.5rem 4rem rgba($color-black, .15);
+        
+        &__side {
+            height: auto;
+            position: relative;
+            box-shadow: none;
+
+            &--back {
+                transform: rotateY(0);
+                clip-path: polygon(0 15%, 100% 0, 100% 100%, 0% 100%);
+            }
+        }
+
+        &:hover &__side--front {
+            transform: rotateY(0);
+        }
+
+
+        &__details {
+            padding: 1rem 3rem;
+        }
+
+        // BACK SIDE STYLING
+        &__cta {
+            position: relative;
+            top: 0%;
+            left: 0;
+            transform: translate(0);
+            width: 100%;
+            padding: 7rem 4rem 4rem 4rem;
+        }
+
+        &__price-box {
+            margin-bottom: 3rem;
+        }
+
+        &__price-value {
+            font-size: 4rem;
+        }
+    }
+}

@@ -1,0 +1,79 @@
+// kunt ook beargumenteren dat het een component is, wat het ook is, maar instructor vind het beter passen onder layout. 
+
+.header{
+    /* this sets at every point,the height of this box, of this element, to be 95% of the viewport height. if you choose 100vh the height will exactly match the viewport. */
+    height: 85vh;
+
+    /* Now we're currently in the CSS folder, so we first have to go one folder up to go into the project folder. So it's ../ then, img, and then the name of the image, hero.jpg */
+
+    /* To specify gradient, always use the background-image property. We want that nice green gradient all over the image. We use background image again, because to specify gradients we always use the background image property. We already have the background image property here with the image. So what can we do? We simply specify a second one. And what we do is to use the comma. Now we want the background to stay on top and so it actually has to be first background image that we specify. We put a gradient here and then comma, the image. Linear gradient and then the colors that we want. And we actually have the colors up here, so we start with the light green on one side. And then comma, and on the other side, the dark green. We have basically two background images, one on top of the other. The first one is the linear gradient.And then after that, so basically below that is this hero image. Another parameter that we can specify in the linear gradient is to where the gradient should go. We can say to right. And so now CSS understands that it should start on the left side and go to the right. */
+
+    background-image: linear-gradient(
+        to right bottom,
+        rgba($color-primary-light, 0.8), 
+        rgba($color-primary-dark, 0.8)), 
+        url(../img/hero.jpg);
+
+    /* What cover does= whatever the width of the viewport, or the element, it'll always try to fit the element inside of the box. */
+    background-size: cover;
+    
+   /* zorgt dat de bovenkant van de image altijd bovenaan de pagina te zien blijft als je de viewport kleiner maakt. Kunt dit ook op bottom of center zetten. */
+    background-position: top;
+
+    /* snij een stuk van de image aan de onderkant af met clip-path. Je specificeert dan de polygon die te zien blijft op de pagina: van links boven, naar rechts boven, rechts onder tot links onder.
+    polygon(x y(=links boven), x y (=rechts boven), x y(= rechts onder), x y(=links onder). Image moet gewoon in de linker bovenhoek beginnen dus je verandert de x en y niet (0 0). Van links boven tot rechts boven moet de image het gehele element bedekken dus x rechts boven is 100% verder dan x links boven. Y verandert niet dus (100% 0). Rechts onderin is x nog steeds 100% breed vanuit links. Maar y vanaf de top verandert nu. de verandering zet je in vh (viewport height) omdat de image dan altijd zn vorm blijft behouden als je de webpagina (en dus de viewport) groter of kleiner maakt)*/
+   /* https://bennettfeely.com/clippy/ has all sorts of polygon examples you can draw using clip-path! */
+//    -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); //first the prefix to make it work in all the browsers, then the normal version:
+//     clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+    position: relative;
+
+    @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+        height: 90vh;
+    }
+
+    @media only screen and (min-resolution: 192dpi) and (min-width: 37.5em),
+        only screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em),
+        only screen and (min-width: 125em) {
+        background-image: linear-gradient(
+        to right bottom,
+        rgba($color-primary-light, 0.8),
+        rgba($color-primary-dark, 0.8)),
+        url(../img/hero.jpg);
+    }
+
+    @include respond(tab-port) {
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
+        height: 85vh;
+    }
+
+    // @include respond(phone) {
+    //     -webkit-clip-path: polygon(0 0, 100% 0, 100% 70vh, 0 100%);
+    //     clip-path: polygon(0 0, 100% 0, 100% 70vh, 0 100%);
+    //     height: 75vh;
+    // }
+
+    &__logo-box{
+       /* Het logo moet links bovenaan komen. One good way of doing this is absolute positioning */
+        position: absolute;
+        top: 4rem;
+        left: 4rem;
+       /* maar wat is de origin van de top en left? De positie van de logo-box div is absoluut tov zijn parent element die relatief is. De header is de parent element dus die moet op position: relative; gezet worden.  */
+    }
+
+    &__logo{
+       /* specify the height of the image itself. We dont need to specify the width because the width will scale accordingly. kunt het ook andersom doen, alleen de width specificeren maar het is beter om altijd de hoogte te specificeren. Nu is het goed moment om de heading aan het html document toe te voegen. */
+        height: 3.5rem; 
+    }
+
+       /* om de titel van de webpage en de button eronder in het midden te krijgen zet je de positie van de div op absolute. Als je het midden met top en left aangeeft dan komt het niet in het midden want dan komt de linkerkant van de div en de bovenkant van de div alleen in het midden. Daar kan je via de transform: translate() property iets aan doen.  */
+    &__text-box{
+        position: absolute;
+        top: 40%; /* related to the parent element */
+        left:50%; /* related to the parent element */
+        transform: translate(-50%, -50%); /* in relation to the element itself */
+        text-align: center;
+    }
+}

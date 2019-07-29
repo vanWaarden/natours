@@ -1,0 +1,59 @@
+
+/* The universal selector will select each and every element on the page, and then apply these declarations here to it. */
+*,
+*::after,
+*::before{
+/* remove the browser default settings for all elements to start clean. */
+margin: 0;
+padding: 0;
+/* change the box models so that the borders and the paddings are no longer added to the total width or the total height that we specify for a box. */
+/* INHERITANCE: whenever we can use it we should insetad of something like the universal selector.  */
+box-sizing: inherit;
+/* box-sizing property on itself is not inherited, but by setting it on inherit it will inherit from the body. check mdn to see what properties autmatically inherit.*/
+}
+
+/* 
+to set the root font-size, put it in the html selector: instructor suggests that it belongs in the base page because it is to set the definition of how big 1rem should be rather than its related to typography.
+html{
+    font-size: 62.5%;
+}
+
+// typography related gedeelte in de body zet je dus in de file typography, rest in de base. 
+body{
+    /* change the box models so that the borders and the paddings are no longer added to the total width or the total height that we specify for a box. */
+    /* INHERITANCE: whenever we can use it we should insetad of something like the universal selector. 
+    box-sizing: border-box;
+}*/
+
+html {
+    // This defines what 1rem is
+    font-size: 62.5%; //1 rem = 10px; 10px/16px = 62.5%
+    // phone and tab-port will both be 50% font size. they both apply for any screensize below 900px so they both apply. So phone can be removed. 
+
+    @include respond(tab-land){ // width < 1200?
+        font-size: 56.25%; // 1rem = 9px, 9/16 = 56.25%
+    }
+
+    @include respond(tab-port){ // width < 900?. tab-land and tab-port both apply when screen is smaller than 1200 so the last one will apply. so below 900px tab-port will now apply
+        font-size: 53%; //1rem should be 8px, 8/16 = 50%
+    }
+
+    @include respond(big-desktop){ // width > 1800?
+        font-size: 75%; // 1rem = 12px, 12/16 = 75%
+    }
+}
+
+body {
+    box-sizing: border-box;
+    padding: 3rem;
+
+    @include respond(tab-port) {
+        padding: 0;
+    }
+}
+
+// to change the color of text when it's selected. Default color is lightblue. 
+::selection {
+    background-color: $color-primary;
+    color: $color-white;
+}

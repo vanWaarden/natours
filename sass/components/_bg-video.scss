@@ -1,0 +1,19 @@
+.bg-video{ // just the container
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%; // of the parent
+    width: 100%; // of the parent
+    // parent dus op position: relative; zetten. parent is section-stories. 
+    z-index: -1; // to make sure that all the other elements of the stories section are on top of this bg video. So to position this video just to the back use a negative value.
+    opacity: .25;
+    overflow: hidden; // omdat de video aan de zijkanten over de witte rand gaat die we aan de pagina hadden gegeven. dus het overflows our element. 
+
+    &__content{
+        height: 100%;
+        width: 100%;
+        object-fit: cover; // element will fill the entire parent while still maintaining its aspect ratio. the parts that dont fit the parent element will simply be cut off. very similar to haveing background-size set to cover. object-fit works with other html elements as well. we can have a parent element and in there an image and then with object-fit we can make that image cover the parent element. we can also have other values, like fill: it will fit all the height and all the width but not maintaining its aspect ratio. 
+
+    }
+}
+

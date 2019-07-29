@@ -1,0 +1,113 @@
+.section-about{
+    background-color: $color-light-grey-1;
+    padding: 25rem 0;
+    margin-top: -15vh;  // move it up with 20vh so this section will start directly after where the heading on the right side is cut off. 
+
+    @include respond(tab-port) {
+        padding: 2rem 0;
+        margin: 0 0 20rem;
+        text-align: center;
+    }
+
+    @include respond(phone-small) {
+        padding: 10rem 2rem 15rem;
+        margin: -5rem 0 15rem;
+    }
+}
+
+.section-features{
+    padding: 20rem 0;
+    background-image: linear-gradient(
+        to right bottom,
+        rgba($color-primary-light, 0.8), 
+        rgba($color-primary-dark, 0.8)), 
+        url(../img/nat-4.jpg);
+    background-size: cover; // this is what you almost always want. So it covers the entire section. 
+    margin-top: -10rem; // to move the entire section up because from the left its now skewed down. 
+
+    // to skew the background-image we skew the entire section.
+    transform: skewY(-7deg);
+    // but now the feature-boxes are also skewed and we dont want that. To move them back, use the select child selector > and the select all * selecter. So then we select the row inside the selection-features class because this is the first direct child. And we do it like this instead of changing it in the feature-box element because if we want to put more things in this row in the future, it is now all selected here already.
+    & > *{
+        transform: skewY(7deg);
+    } 
+
+    @include respond(tab-port) {
+        padding: 10rem 0;
+        margin-top: -20rem;
+    }
+}
+
+.section-tours{
+    background-color: $color-light-grey-1;
+    padding: 20rem 0 8rem 0;
+    margin-top: -10rem;
+    
+    @include respond(tab-port) {
+        padding: 20rem 0 10rem 0;
+    }
+
+    @include respond(phone) {
+        padding: 8rem 0 6rem 0;
+        margin-top: -3rem;
+    }
+}
+
+.section-stories{
+    position: relative;
+    padding: 5rem 0; //15rem top and bottom, 0 left and right.
+
+    @include respond(tab-port) {
+        padding: 7rem 0;
+    }
+}
+
+.section-book{
+    padding: 15rem 0;
+    background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary-dark);
+
+    @include respond(tab-port) {
+        padding: 10rem 0;
+    }
+}
+
+.book{
+    background-image: linear-gradient(105deg, 
+                        rgba($color-white, .9) 0%, 
+                        rgba($color-white, .9) 50%,
+                        transparent 50%),
+                        url(../img/nat-10.jpg); //basically the gradient is between the two solid colors. 
+    background-size: 100%; // cover means the same
+    border-radius: 3px; // good variable
+    box-shadow: 0 1.5rem 4rem rgba($color-black, .2);
+    // height: 50rem;
+
+    @include respond(tab-land) {
+        background-image: linear-gradient(105deg, 
+        rgba($color-white, .9) 0%,
+        rgba($color-white, .9) 65%,
+        transparent 65%) ,
+        url(../img/nat-10.jpg);
+        background-size: cover;
+    }
+
+    @include respond(tab-port) {
+        background-image: linear-gradient(to right, 
+        rgba($color-white, .9) 0%,
+        rgba($color-white, .9) 100%),
+        url(../img/nat-10.jpg);
+    }
+
+    &__form{
+        width: 50%;
+        padding: 6rem;
+
+        @include respond(tab-land) {
+            width: 65%;
+        }
+
+        @include respond(tab-port) {
+            width: 100%;
+        }
+    }
+}

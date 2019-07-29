@@ -1,0 +1,75 @@
+.row{
+    // 1140px. you have to set max-width instead of width. beacuse it means if we have enough available space than it will have the space that we specified. But if there is not enough width, than it will fill 100% of the availble space that it has.
+    max-width: $grid-width;    
+    // background-color: #eee;  // to see whats going on.
+
+    // always center this row in the viewport, using this trick: 0 means 0 margin on the top and the bottom and auto means left and right have the same space so it will autmatically center. This trick uses everyone to center block elements inside of another block element. 
+    margin: 0 auto; 
+
+    // row:not() is the not speudo-class. Here we can specify another speudoclass in. This selects everything except the last last-child. Best solution to give all margin-bottoms a $gutter-vertical except the last row. Because it doesnt make sense to have an bottom margin of 80px at the last row. 
+    &:not(:last-child){
+        margin-bottom: $gutter-vertical;  // this value and max-width are great candidates to specify as variables so we have 1 place where we can easely change it.
+
+        @include respond(tab-port) {
+            margin-bottom: $gutter-vertical-small;
+        }
+    }
+
+    @include respond(tab-port) {
+        max-width: 50rem;
+        padding: 0 3rem;
+    }
+
+    // because the columns are always inside an row, we can define the width here. the space of the first column is the entire space of the row-the gutter space divided by 2. In css there is an extremely powerful function called calc() and in here you can do mathematical operations, and you can actually mix units in here (%, px rems etc together). Thats reallty important. Thats a big difference between doing native CSS calculations and doing them in sass, because in sass we can also do calculations but not with multiple units. because we compile our sass file while we're developing the page, so even before the page is served to the user but this kind of calculation all depends on the layout, so it has to happen while the website is rendered using the visual formatting model. Thats when these calculations can occur because its only then when CSS and when the browser knows what the percentage is, what the rem is and what all of that stuff is. So we have to do it using the native calc functions. If you want to use a sass variable, you have to the # and than wrap it in curly braces.  
+
+    @include clearfix;
+
+    // use the attribute selector to select all of the columns at the same time, and than apply these styles to all of these columns. use [] to select all columns matching with col- at the beginning of the name, use class^="col-1". Other options:
+    // class*="col-1" -> you select everything that contains col-1 in the classname.
+    // class$="col-1" -> you select everything that ends with col-1 in the classname.  
+
+    [class^="col-"] {
+        float: left; // always float al the columns to the left side. 
+    
+        // all the columns have to have a gutter horizontal on the right side except the last column. 
+        &:not(:last-child){
+            margin-right: $gutter-horizontal;
+
+            @include respond(tab-port) {
+                margin-right: 0;
+                margin-bottom: $gutter-vertical-small;
+            }
+
+            @include respond(phone) {
+                margin-bottom: 2rem;
+            }
+        }
+
+        @include respond(tab-port) {
+            width: 100% !important;
+        }
+    }
+
+    .col-1-of-2 {
+        width: calc((100% - #{$gutter-horizontal}) / 2);
+    }
+
+    .col-1-of-3 {
+        width: calc((100% - 2 * #{$gutter-horizontal}) / 3);
+    }
+
+    .col-2-of-3 {
+        // width = width of column 1 of 3 * 2 + the gutter. 
+        width: calc(2 * ((100% - 2 * #{$gutter-horizontal}) / 3) + #{$gutter-horizontal});
+    }
+
+    .col-1-of-4 {
+        width: calc((100% - 3 * #{$gutter-horizontal}) / 4);
+    }
+    .col-2-of-4 {
+        width: calc(2 * ((100% - 3 * #{$gutter-horizontal}) / 4) + #{$gutter-horizontal});
+    }
+    .col-3-of-4 {
+        width: calc(3 * ((100% - 3 * #{$gutter-horizontal}) / 4) + 2 * #{$gutter-horizontal});
+    }
+}

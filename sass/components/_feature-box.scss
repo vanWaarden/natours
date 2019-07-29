@@ -1,0 +1,35 @@
+.feature-box{
+    background-color: rgba($color-white, .8);
+    // the paragraph is a child of feature-box and inherits the font-size.
+    font-size: 1.5rem;
+    padding: 2.5rem;
+    text-align: center;
+    border-radius: 3px; // small one looks modern
+    box-shadow: 0 1.5rem 4rem rgba($color-black, .15); // huge design trend right now
+    transition: transform .3s;
+
+    @include respond(tab-port) {
+        padding: 3rem 5rem 4rem;
+    }
+
+    &__icon{
+        // we want to increase it and it is effectively a font so we can say:
+        font-size: 6rem;
+        margin-bottom: .5rem;
+        background-image: linear-gradient(to right, $color-primary-light, $color-primary-dark);
+        // then make the background image as large as the text:
+        display: inline-block;
+        // then make that effect happen with the gradient behind the text. with background-clip set to text. This will clip the lineair-gradient image to exactly the places where the text is. So new that we have to use the webkit prefix.   
+        -webkit-background-clip: text; 
+        // now we dont want to see the text anymore but only the background-image. 
+        color: transparent;
+
+        @include respond(tab-port) {
+            margin-bottom: 0;
+        }
+    }
+    
+    &:hover{
+        transform: translateY(-1.5rem) scale(1.1); 
+    }
+}

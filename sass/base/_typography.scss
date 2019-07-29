@@ -1,0 +1,145 @@
+// kunt ook zeggen dat het onder components hoort maar omdat het heel erg gerelateerd is aan typography vind de instructor het beter passen onder typography.
+
+/* Next, set some overall font properties for the entire webpage. This time, in the universal selector, but in the body element selector. Because the properties related to font are usually inherited, so we're using the power of inheritance here. 
+
+ICONS
+We use an icon font instead of images because images dont nicely scale up and down when we scale our page. Icon fonts are vectors, and then no matter how much we would zoom in on the page, the icons will always remain nice and sharp. We can also use .svg format, but thats more advanced. We do that in the next project. 
+*/
+
+body{
+    /* set, the font family on the body element, which is basically the parent element
+    of all the other elements. Then this font family will get inherited, by all the child elements of the body. This way is actually more efficient, and it's a better practice than to just put all of this in the universal selector up here. We never do that. Everything related to font, we always specify it here in the body selector.  */
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    /* font-size: 16px; */
+    line-height: 1.7; /* means 1.7 times bigger than the normal line-height of the font. */
+    color: $color-dark-grey;
+}
+
+.heading-primary{
+    color: $color-white;
+    text-transform: uppercase;
+    /* het lijkt alsof de animatie ook iets naar boven gaat. Dit gebeurt soms bij animaties en door backface-visibility op hidden te zetten, gebeurt dit niet meer. the backface visibility property determines if the back part of an element when we transform it, */
+    backface-visibility: hidden;
+    /* ruimte tussen de header en de button toevoegen: */
+    margin-bottom: 6rem;
+
+    @include respond(phone-small) {
+        margin-bottom: 5rem;
+    }
+
+    &--main{
+        /* 
+        Outdoors en is where life happens moeten onder elkaar komen te staan. Kan het beste door er block elements van te maken via de display property.  
+        */
+        display: block;
+        font-size: 6rem;
+        font-weight: 400;
+        letter-spacing: 3.5rem;
+        margin-right: -3.5rem;
+        /* look if the animation works: */
+        animation-name: moveInLeft;
+        animation-duration: 1s;
+        animation-timing-function: ease-out; /* begint snel en eindigt langzaam. Are lot of options. Look up at the MDN website. */
+    
+        /*Ook mogelijk onder andere, en veel voorkomend (er is meer mogelijk maar die komen minder vaak voor: 
+        animation-delay: 5s;
+        animation-iteration-count: 3; (animatie herhaalt zich 3x) 
+        */
+
+        @include respond(phone) {
+            letter-spacing: 1rem;
+            margin-right: -1rem;
+        }
+
+        @include respond(phone-small) {
+            letter-spacing: .5rem;
+            margin-right: -.5rem;
+            margin-top: 10rem;
+            font-size: 5.5rem;
+
+        }
+    }
+
+    &--sub{
+        display: block;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: 1.75rem;
+        margin-right: -1.75rem;
+        animation: moveInRight 1s ease-out; /* kunt dus ook de shorthand manier gebruiken voor de animatie */
+
+        @include respond(phone) {
+            letter-spacing: .5rem;
+            margin-right: -.5rem;
+        }
+
+        @include respond(phone-small) {
+            letter-spacing: 0.4rem;
+            margin-right: -0.4rem;
+        }
+    }
+}
+
+.heading-secondary{
+    font-size: 3.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+     // to give it the gradient in the txt. First give it the linear background image
+    
+     // then make the background image as large as the text:
+    display: inline-block;
+     // then make that effect happen with the gradient behind the text. with background-clip set to text. This will clip the lineair-gradient image to exactly the places where the text is. So new that we have to use the webkit prefix.   
+    -webkit-background-clip: text; 
+     // now we dont want to see the text anymore but only the background-image. 
+    color: transparent;
+     letter-spacing: .2rem; // can also use 2px instead of rem because it is so small that it will probably always translate to 2px because of rounding issues.  
+    margin-right: -.2rem;
+    transition: all .2s;
+
+    &--green{
+        background-image: linear-gradient(to right, $color-primary-light, $color-primary-dark);
+    }
+
+    &--orange{
+        background-image: linear-gradient(to right, $color-secundary-light, $color-secundary-dark);
+    }
+
+    @include respond(tab-port) {
+        font-size: 3rem;
+    }
+
+    @include respond(phone) {
+        font-size: 2.5rem;
+        letter-spacing: 0;
+        margin-right: 0;
+        padding: 0 2rem;
+    }
+
+     // when we hover over the text, the text will go down at the right side of the h2 and up at the left side of the h2. 
+    &:hover{
+        // also add a transition property to .heading-secondary. skew = scheef. 
+        transform: skewY(2deg) skewX(15deg) scale(1.1);
+        // also add schadow: 5px x-direction, 10px y-direction 20px blur color black 20% opacity
+        text-shadow: .5rem 1rem 2rem rgba($color-black, .2);
+        
+        @include respond(phone) {
+            transform: skewY(1deg) skewX(10deg) scale(1.1);
+        }
+    }
+}
+
+
+.heading-tertiary{
+    font-size: $default-font-size;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.paragraph{
+    font-size: $default-font-size;
+
+    &:not(:last-child){
+        margin-bottom: 3rem;
+    }
+}

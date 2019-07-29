@@ -1,0 +1,102 @@
+.story{
+    width: 75%;
+    // story is a div element and its nested in the row div element so a block-element inside a block-element. so to center it:
+    margin: 0 auto;
+    box-shadow: 0 3rem 6rem rgba($color-black, .1);
+    background-color: rgba($color-white, .6); // to make the background of the stories not just white but more transparant so you can see the back ground video better. 
+    border-radius: 3px; 
+    padding: 6rem;
+    padding-left: 9rem; // 6 + 3 because the transform: translateX(-3rem) form &__shape zorgde ervoor dat de circle meer naar links ging en daardoor over de padding heen.  
+    font-size: $default-font-size;
+    // to make the background of the element the non rectangular design that we have here:
+    transform: skewX(-12deg); // nu zijn de image en de text ook geskewed dus die moeten weer in de tegenovergestelde richting terug worden geskewed. Doen dit via direct child selector (>) en than select everything (*)
+
+    // & > * { // so this selects everything of the direct childs which are __shape and __text.
+    // transform: skewX(12deg);
+    // } maar dit werkt niet omdat de transform bij shape al is gebruikt en daardoor daar voorang heeft op de hier gedefinieerde en daarom de image scheef blijft staan. moet dus apart bij de shape en text gedefinieerd worden dat het terug geskewed moet worden. 
+    @include respond(tab-port) {
+        width: 100%;
+        padding: 4rem;
+        padding-left: 7rem;
+    }
+
+    @include respond(phone) {
+        transform: skewX(0);
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+    }
+
+    &__shape{
+        width: 15rem; // verplicht voor shape-outside: circle()
+        height: 15rem; // verplicht voor shape-outside: circle()
+        float: left; // in order to float the rest of the text around it. verplicht voor shape-outside: circle()
+        // to float the text around the image as if it was round (the image doenst even have to be round. We use the shape-outside property: we have to define a vectorized shape here once more. We also used this property to make a polygon. But you can make a lot of shapes with it. This time a circle. 
+        // margin-right: 100px; // to define the margin between the circle and the text around it, define the margin you want to be applied in this element and use margin-box in the shape-outside property definition. 
+        -webkit-shape-outside: circle(50% at 50% 50%); // it doesnt work in firefox and internet explorer and microsoft edge.
+        shape-outside: circle(50% at 50% 50%); //margin-box; // in () we can define the size of the circle and the position of the center of the circle. The first value = the radius of the circle. A radius of 50% means a radius of half the size of the width of the element (15rem in this case). at 50% 50% means that its exactly the center of the circle. so 50% horizontally and 50% vertically. In order for this to work, the element must be floated and the element must have defined dimensions, so width and height. In safari it currently only works with the safari webkit prefix. 
+        -webkit-clip-path: circle(50% at 50% 50%);
+        clip-path: circle(50% at 50% 50%); // to make the image round. 
+        transform:translateX(-3rem) skewX(12deg); // better to add space between the image and the text around it using this property than using margin property. This property places the image to another direction. In this case to the left. Will ask why this is better than using margin-right property in this selector and using margin-box in the shape-outside property. With the transform we occupied half of the padding on the left side of the text. skewX(12deg)moet je toevoegen omdat je hier al tranform hebt gedefinieerd en daarom de skew transform niet helemaal goed werkt bij de selector heirboven (first child en dan alles. Alleen de tekst wordt teruggevormd maar de image niet vanwege dat de transform hier (de eerste) voorang heeft op de andere transform dus die moet je hier alsnog definieren. 
+        position: relative;
+        overflow: hidden;
+
+        @include respond(phone) {
+            transform: translateX(0) skewX(0);
+            float: unset;
+            overflow: unset;
+        }
+    }
+
+    &__img{
+        height: 100%; // because the image has the width well defined in the &__shape selector. (15rem) so 100% will be 15rem. Dont use width: 100% because the image is wider than it's height so than it will not fit properly.
+        transform: translateX(-4rem) scale(1.4); // to put the woman in the image of the rounded shape for the image now we use transform: translateX(-4rem) and to make the image first be further away and then zoom in if we hover it, we want it at 1. 
+        backface-visibility: hidden;
+        transition: all .5s; // to make the hover animation work smooth. 
+        
+        @include respond(phone) {
+            
+        }
+    }
+
+    &__text{
+        transform: skewX(12deg);
+
+        @include respond(phone) {
+            transform: skewX(0);
+            text-align: center;
+            margin-top: 2rem;
+            
+        }
+    }
+
+    &__caption{
+        // to make the caption exactly centered on top of the image:
+        position: absolute; 
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, 20%); // 20% sets the text more down, so not centered in the middle anymore. this is the initial state before we do the hover. 
+        color: $color-white;
+        text-transform: uppercase;
+        font-size: 1.7rem;
+        text-align: center;
+        opacity: 0; // this is the initial state before we do the hover animation.
+        transition: all .5s; // to make the hover animation work smooth. 
+        backface-visibility: hidden; // to avoid the hover animation from shaking a bit at the end of the animation. 
+    }
+
+    // as soon as the story is hovered, then we want to change the caption
+    &:hover &__caption{
+        opacity: 1;
+        transform: translate(-50%, -50%); // this is the final state where we want the caption to be
+    }
+
+    // when we hover the story we also want to change the image
+    &:hover &__img{
+        transform: translateX(-4rem) scale(1);
+        filter: blur(3px) brightness(80%); // value brightness below 100% makes it darker, above makes it ligther. 
+    }
+}

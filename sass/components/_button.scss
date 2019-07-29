@@ -1,0 +1,122 @@
+
+.btn{
+    &, 
+    &:link, 
+    &:visited {
+    text-transform: uppercase;
+    text-decoration: none; /* not underlined: */
+    padding: 1.5rem 4rem;  /* top and bottom 15px, left and right 40px */
+    
+    /* normally its an inline element but this way the box model works on this element as if it was just a normal block element. We should always do this if we want to give some paddings ore some heights or widths to the elements.   */
+    display: inline-block; 
+
+    /* another problem: the button is not in the center of the box. because it's an inline-block element, it is treated as if it was text. So if we want text to be in the center of a box we just use text-align: center. So we set this property in the box (header-text-center-box)  */
+
+    /* make the corners of the button rounded: */
+    border-radius: 10rem;
+
+    /* now add the animation. there are 2 types of animation: the transition property (easy one) and the (@keyframe) method that we used. For this animation we dont need the method. We just use the transition property. Now specify which properties we want to animate: if youre not sure or dont want to write them out, simply say all. So in this case, all the properties are enabled to be animated. we can also say for how long we want the animation to be. We want 2s. than in the psuedoclasses we specify what the animation should do because we want the animation to be different in hover state and in active state. */  
+    transition: all .2s;
+     /* so the after pseudo-element's absolute position is referenced to the button.   */
+    position: relative; 
+    font-size: $default-font-size;
+    border: none;
+    cursor: pointer;
+
+    @include respond(phone-small) {
+        padding: 1rem 2.5rem;
+        }
+    }
+
+    &:hover {
+        /* to move up the button use -number for Y. Y is going from top to bottom. x is going from left to right. so if you want the button to go to the left, use -number for x. Always related to the original link state. */
+        transform: translateY(-3px);
+        /* we want shadow. first one is in x direction, second one is y direction. we want 10px down, third is the blur that we want to see. we want 20px, really high blur so it looks further away. And finally put hte color. for shadow with opacity, use rgba. 0 0 0 is black and .2 is 20% opacity.  */
+        box-shadow: 0 1rem 2rem rgba($color-black,.2);
+
+        &::after{
+            /* we want it to be bigger if we hover over the button. So use scale() becuase it simply increase the element. if you say scale(2) it doubles the size of the size before. But you can also scale in different directions: */
+            transform: scaleX(1.4) scaleY(1.6);
+             /* And we also want this to be animated just like before. So we have to put the transition property on the initial state. which is here the speudo after element.  */
+    
+            /* and we want the opacity to fade out. the trick for that is to set opacity: 0; */
+            opacity: 0;
+        }
+    }
+
+    &:active, 
+    &:focus{
+        outline: none; // to remove the default blue borders when clicked. For accessibiliy focus state shouldnt only be removed but because the other things are applied to it, it doesnt get removed completely. 
+        transform: translateY(-1px); /* go litle bit up */
+        box-shadow: 0 .5rem 1rem rgba($color-black,.2); /*less shadow than in hover state. values are compared to original link state.*/
+    }
+
+    /* we want the color of the text of the button to be different depending of the backgroundcolor of the button so this property we going to style in the buttons we want to look the same. so all the white buttons will have dark gray color text, and all the green buttons will have white color text. we style this per color button.  */
+    &--white {
+        background-color: $color-white;
+        color: $color-dark-grey;
+
+        /* we want the after pseudo button to be white. But in order for it to be white, we should make another after pseudo element but this time for the btn-white.   */
+        &::after{
+        background-color: $color-white;
+        }
+    }
+
+    &--green {
+        background-color: $color-primary;
+        color: $color-white;
+    
+            /* we want the after pseudo button to be green. But in order for it to be green, we should make another after pseudo element but this time for the btn-green   */
+            &::after{
+            background-color: $color-primary;
+        }
+    }
+    /* to put an element that looks exactly as the button but we put it behind the button, use pseudo-element ::after. This is called the after pseudo-element. When we hover out of the button, this hidden pseudo-element amazingly goes back behind the button. In order for an pseudo-element to appear, you need to specify its content property. It can be empty, like here, but you have to specify it. Same thing with the display property. so you have to specify it. and in this case we say its an inline-block because the button is also an inline-block. the speudo-element is basicly treated like a child of the button. so we can say height 100% and width 100% and it will be 100% of the button. */
+    &::after{ // voor de onderkant van de button. zo lijkt het alsof het achter de button een splash krijgt 
+        content: "";
+        display: inline-block;
+        height: 100%;
+        width: 100%;
+        border-radius: 10rem;
+        /* in order it to be behind the button: so we have to make position absolute. Then it will be absolute to the first relative element it can find. this will be header. but we want it behind the button so we have to set the position property of button to relative. */
+        position: absolute;
+        top: 0;
+        left: 0;
+        /* z-index defines the position if the one is on top of the other. If we set it to -1 its definitely behind the button.  */
+        z-index: -1;
+        /* omdat het nu verborgen is kun je het nu niet zien. nu gaan we bepalen wanneer we het willen zien. we want to see it when we hover over the button. so add &:hover::after pseudo-element. */
+        transition: all .4s;
+    }
+
+    &--animated{
+        animation: moveInBottom .5s ease-out .75s;
+        animation-fill-mode: backwards; /* opnieuw opzoeken waarom fill-mode backwards */
+    }
+}
+
+.btn-text{
+    &:link,
+    &:visited{
+        font-size: $default-font-size;
+        color: $color-primary;
+        display: inline-block;
+        text-decoration: none;
+        border-bottom: 1px solid $color-primary;
+        padding: 3px;
+        transition: all .2s;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    &:hover{
+        background-color: $color-primary;
+        color: $color-white;
+        box-shadow: 0 1rem 2rem rgba($color-black, .15);
+        transform: translateY(-2px);
+    }
+
+    &:active{
+        box-shadow: 0 .5rem 1rem rgba($color-black, .15);
+        transform: translateY(0);
+    }
+}

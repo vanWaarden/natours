@@ -1,0 +1,120 @@
+.form{
+    // style everything except the last child:
+    &__group:not(:last-child){
+        margin-bottom: 2rem;
+
+        @include respond(tab-port) {
+            margin-bottom: 0;
+        }
+    }
+
+    &__group:last-child{
+        
+        @include respond(tab-port) {
+            text-align: center;
+        }
+    }
+
+    &__input{
+        font-size: 1.5rem;
+        font-family: inherit; //input elements dont automatically inherit from their parents
+        color: inherit; // to make it grey instead of black
+        padding: 1.5rem 2rem;
+        border-radius: 2px;
+        background-color: rgba($color-white, .5);
+        border: none;
+        border-bottom: 3px solid transparent; // to avoid that the input element moves a little bit down in focus state, because there I added a border-bottom of 3px. So here I do this as well but make it invisible. 
+        width: 90%;
+        display: block;
+        transition: all .3s;
+
+        @include respond(tab-port) {
+            width: 100%;
+        }
+
+        // to remove the blue border which the browser gives us by default, when we focus on the input element: 
+        &:focus{
+        outline: none;
+        // focus is really important for people who use a website without a mouse but only with a keyboard. When they move around with their mouse, they need to know which form element is focused. So you always have to make the form elements that are focused, visible. 0 in x-direction, 1rem = y direction, 2rem is blur
+        box-shadow: 0 1rem 2rem rgba($color-black, .1);
+        border-bottom: 3px solid $color-primary;
+        }
+        // if the user doesnt fill in the required fields or doesnt include an @ in her email address then the border-bottom color should be red/ dark orange. When the input is valid, it turns green. 
+        &:focus:invalid{
+            border-bottom: 3px solid $color-secundary-dark;
+        }
+
+        &::-webkit-input-placeholder{
+            color: $color-dark-grey-2;
+        }
+    }
+
+    &__label{
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-left: 2rem;
+        margin-top: .7rem;
+        display: block;
+        transition: all .3s; // to animate the visibility of the label. Before you start writing the label is gone. As soon as you start writing, the placeholder is gone and the styles that I defined for when the placeholder is shown as well. So as soon as the user starts writing, this animation comes in and shows the label again. 
+    }
+
+    // to style the placeholder when it its shown on the input element. I want to style the label. I want that to be hidden, not the input. Input and label are siblings. Css has siblings selectors: ~ is the general sibling selector. + is the sibling selector for the first sibling after the first selected sibling. The sibling that you want to select always has to be after the first element. So the label needs to be after the input in order to be selected with the sibling selector:
+    &__input:placeholder-shown + &__label{
+        opacity: 0; // the element will still be on the page but only invisible
+        visibility: hidden; // to make sure its really gone. I dont use visibility only because this can not be animated.
+        transform: translateY(-4rem); // it moves the label text from the placeholder text down below the input placeholder area. So it looks like the placeholdertext slides in from invisible to visible and from right on top of the placeholder text to right below as soon as you start typing.  
+    } 
+
+    &__radio-group{
+        width: 49%; // to place the buttons next to each other
+        display: inline-block;
+
+        @include respond(tab-port) {
+            width: 100%;
+            margin: 2.5rem 0;
+        }
+    }
+
+    &__radio-input{
+        display: none;
+    }
+
+    &__radio-label{
+        font-size: $default-font-size;
+        cursor: pointer;
+        position: relative; // parent of radio-button
+        padding-left: 4.5rem;
+
+    }
+
+    &__radio-button{
+        height: 3rem;
+        width: 3rem;
+        border: 5px solid $color-primary;
+        border-radius: 50%;
+        display: inline-block;
+        position: absolute;
+        left: 0;
+        top: -.4rem;
+
+        // for the dot inside the circle
+        &::after{
+            content: ""; // always specify the content and the display property when selecting a pseudo element.
+            display: block;
+            height: 1.3rem;
+            width: 1.3rem;
+            border-radius: 50%; // to be round
+            position: absolute; // position of the parent doesnt have to be relative. 
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: $color-primary;
+            opacity: 0; // I want it to show only if the button is clicked
+            transition: opacity .2s;
+        }
+    }
+    // As soon as a user hits the radio input becomes checked. We have the checked psuedo class for that. I want to select the after pseudo element of the radio-button instead of the radio-input. To select this, first go to first sibling label, en inside the label to first direct child of the label:
+    &__radio-input:checked + &__radio-label &__radio-button::after{
+        opacity: 1;
+    } 
+}

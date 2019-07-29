@@ -1,0 +1,186 @@
+.navigation{
+    &__checkbox{
+        display: none;
+    }
+
+    &__button{
+        background-color: $color-white;
+        height: 7rem; // button is 1 rem higher than background circle. To make the impression that the background color fades in from behind the button when clicked. 
+        width: 7rem;
+        position: fixed;
+        top: 6rem;
+        right: 6rem;
+        border-radius: 50%;
+        z-index: 2000;
+        box-shadow: 0 1rem 3rem rgba($color-black, .1);
+        text-align: center;
+        cursor: pointer;
+
+        @include respond(tab-port) {
+            top: 4rem;
+            right: 4rem;
+        }
+
+        @include respond(phone) {
+            top: 3rem;
+            right: 3rem;
+        }
+
+        @include respond(phone-small) {
+            height: 5.5rem;
+            width: 5.5rem;
+        }
+    }
+
+    &__background{
+        height: 6rem;
+        width: 6rem;
+        border-radius: 50%;
+        position: fixed; // takes the element out of the flow. allows to specify with top, bottom etc. 
+        top: 6.5rem;
+        right: 6.5rem;
+        background-image: radial-gradient($color-primary-light, $color-primary-dark); // begins at the middle of an element
+        z-index: 1000;
+        transition: transform .8s cubic-bezier(0.86, 0, 0.07, 1); // cubic-bezier() function defines a custom animation. in here you have to put 4 numbers
+
+        //transform: scale(80); // this background round button will become huge and will grow and this animation is what will create the effect. Tools online to know which numbers you need inside: cubic-bezier.com and easings.net
+
+        @include respond(tab-port) {
+            top: 4.5rem;
+            right: 4.5rem;
+        }
+
+        @include respond(phone) {
+            top: 3.5rem;
+            right: 3.5rem;
+        }
+
+        @include respond(phone-small) {
+            height: 3.5rem;
+            width: 3.5rem;
+        }
+    }
+
+    // navigation if you open up the toggle riht upper corner
+    &__nav{
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        right: 0; // starts at the top right of the viewport spending over the entire viewport.
+        z-index: 1500; // has to be on top of background and below button. 
+        // first we want it to be hidden:
+        opacity: 0; // the links will still be there though. The hand of the cursor reveil that
+        width: 0; // thats whay width should also be 0
+        // we use the checkbox hack to bring it back to life: we have our checkbox, we hare our label and our background. We hit the label and the checkbox becomes checked. and then we want the navigation background to become visible. Hoe te vertalen naar CSS selector? &__checkbox:checked ~ &__background (dan dus sibling selector, niet de eerste sibling dus ~ en dan de sibling selecteren die je bedoeld. je wil namelijk de background selecteren. )
+
+        transition: all .8s cubic-bezier(0.68, -0.55, 0.265, 1.55); // the width can become 100% immidiatly but the opacity is the one we want to animate
+    }
+
+    &__list{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); // make mixin of it. those 4 lines code. 
+        list-style: none; // to get rid of the bullets
+        text-align: center;
+        width: 100%;
+    }
+
+    &__item{
+        margin: 1rem;
+    }
+
+    &__link{
+        &:link, 
+        &:visited{
+            display: inline-block;
+            font-size: 3rem;
+            font-weight: 300;
+            padding: 1rem 2rem;
+            color: $color-white;
+            text-decoration: none;
+            text-transform: uppercase;
+            background-image: linear-gradient(120deg, transparent 0%, transparent 50%, $color-white 50%);
+            background-size: 230%;
+            transition: all .4s;
+            margin-right: 1.5rem;
+        }
+
+        &:hover, 
+        &:active{
+            background-position: 100%;
+            color: $color-primary;
+            transform: translate(1rem);
+        }
+    }
+
+    // FUNCTIONALITY
+    &__checkbox:checked ~ &__background{
+        transform: scale(80); // to increase it: scale it 80 times
+    }
+
+    &__checkbox:checked ~ &__nav{ // brings back the navigation to life
+        opacity: 1;
+        width: 100%; 
+         // we now need a transition on the background as well as on the nav element. this is added at the background and nav.
+    }
+
+    // ICON 
+    // the 3 lines in the toggle menu: the middle line will be a span element. the first a before pseudo element and the third a after psuedo element. when clicked: the middle one dissapears and the other two lines rotate and become a cross. In the html create a span .navigation__icon
+    &__icon{
+        position: relative; // the parent element.
+        margin-top: 3.5rem;
+
+        @include respond(phone-small) {
+        margin-top: 2.8rem;
+        }
+
+        &, // icon element itself
+        &::before,
+        &::after{
+            width: 3rem; // the 3 lines 3rem
+            height: 2px; // use px bec we dont want this to change. always 2px no matter what the base fontsize should be
+            background-color: $color-dark-grey-3;
+            display: inline-block;
+        }
+        // to let the before and after pseudo element appear on the page, they need to have their content element defined
+        &::before,
+        &::after{
+            content: "";
+            position: absolute; // related to the icon element itself
+            left: 0;
+            transition: all .4s;
+        }
+
+        &::before{
+            top: -.8rem; // to move it up
+             // transform-origin: right; transform origin describes where the transformation happens. So the center of the cross rotation happens from the right side of the element. If you dont specify it, it will rotate from the center
+        }
+
+        &::after{
+            top: .8rem; // to move it down. now they are lined right on top of each other. to place them in the middle of the white circle. Zet text-align in &__button op center. Dan moet het allemaal naar beneden met een margin-top op de &__icon element. 
+        }
+    }
+    // as soon as we hover the button, the lines have to space out some more. so first select the button and from there select the icon:
+    &__button:hover &__icon::before{
+        top: -1rem; // it was -.8rem
+    }
+
+    &__button:hover &__icon::after{
+        top: 1rem; // it was .8rem // then transition all of this
+    }
+    // to make the middle line dissapear: use checkbox hack:
+    &__checkbox:checked + &__button &__icon{ //then we want to select the .navigation__button. its the first sibling so use + and then select the child element: the icon
+    background-color: transparent; // can not remove it because the pseudo before and after classes depend on its width
+    }
+
+    &__checkbox:checked + &__button &__icon::before{ // to make the cross
+        top: 0;  // have to move them back to the middle. they are still spaced out in relation to the one in the middle:
+        transform: rotate(135deg);
+    }
+
+    &__checkbox:checked + &__button &__icon::after{ // to make the cross
+        top: 0;  // have to move them back to the middle. they are still spaced out in relation to the one in the middle:
+        transform: rotate(-135deg); //45deg will do but to give it more dramatic effect use 135deg
+    }
+}

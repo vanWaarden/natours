@@ -1,0 +1,1224 @@
+/*
+0-600px: phone
+600-900px: tablet portrait
+900-1200px: tablet landscape 
+[1200-1800] is where normal styles apply
+1800px +: big desktop
+
+$breakpoint argument choices:
+- phone-small
+- phone
+- tab-port
+- tab-land
+- big-desktop
+
+ORDER: Base + typography > general layout + grid > specific page layout > components
+The overall font-size takes care of most of the changes. 
+
+1em = 16px. best to convert in em because rem doesnt work in all browsers the way it supposed to work. 
+*/
+/* the only properties that are required for an animation to work are:
+- transform:
+- opacity:
+- name of the animation (made with @keyframes)
+- duration of the animation  */
+/* Animate the h1: */
+@keyframes moveInLeft {
+  0% {
+    /* first we want it to be invisible. so opacity 0. for the browser its best to only animate 2 properties. So here, opacity and transform. For these two properties the browser is optimized. But with transform we can do a whole lot so its anything that we need to make all these cool animations that you can imagine. */
+    opacity: 0;
+    /* slide van links van de uiteindelijke plek naar zn plek */
+    transform: translateX(-10rem); }
+  80% {
+    /* right before the end it moves a bit more to the right before falling into final position. */
+    transform: translateX(1rem); }
+  100% {
+    opacity: 1;
+    /* de slide komt uit waar de tekst hoort te staan: */
+    transform: translate(0); } }
+
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    /* slide van rechts van de uiteindelijke plek naar zn plek */
+    transform: translateX(10rem); }
+  80% {
+    transform: translateX(-1rem); }
+  100% {
+    opacity: 1;
+    /* de slide komt uit waar de tekst hoort te staan: */
+    transform: translate(0); } }
+
+@keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(3rem); }
+  100% {
+    opacity: 1;
+    transform: translate(0); } }
+
+/* :link = pseudoclass. We use pseudoclasses to style elements on a special condition. The link is a special state of a selector when it is an anchor element so it functions as a link. So like when a user hovers an element, or when a checkbox is clicked or if we want to select a first-child etc. Its a very important concept. But there is also the visited state. so button visited. when the user has already clicked on the button once before and then sees the button again, thats the visited state. If we dont style the link. It will be blue at the beginning and once it is clicked it will be purple. We want the visited state to look exactly like the link state so we just put them together. visited = keyword. */
+/* The universal selector will select each and every element on the page, and then apply these declarations here to it. */
+*,
+*::after,
+*::before {
+  /* remove the browser default settings for all elements to start clean. */
+  margin: 0;
+  padding: 0;
+  /* change the box models so that the borders and the paddings are no longer added to the total width or the total height that we specify for a box. */
+  /* INHERITANCE: whenever we can use it we should insetad of something like the universal selector.  */
+  box-sizing: inherit;
+  /* box-sizing property on itself is not inherited, but by setting it on inherit it will inherit from the body. check mdn to see what properties autmatically inherit.*/ }
+
+/* 
+to set the root font-size, put it in the html selector: instructor suggests that it belongs in the base page because it is to set the definition of how big 1rem should be rather than its related to typography.
+html{
+    font-size: 62.5%;
+}
+
+// typography related gedeelte in de body zet je dus in de file typography, rest in de base. 
+body{
+    /* change the box models so that the borders and the paddings are no longer added to the total width or the total height that we specify for a box. */
+/* INHERITANCE: whenever we can use it we should insetad of something like the universal selector. 
+    box-sizing: border-box;
+}*/
+html {
+  font-size: 62.5%; }
+  @media only screen and (max-width: 75em) {
+    html {
+      font-size: 56.25%; } }
+  @media only screen and (max-width: 56.25em) {
+    html {
+      font-size: 53%; } }
+  @media only screen and (min-width: 112.5em) {
+    html {
+      font-size: 75%; } }
+
+body {
+  box-sizing: border-box;
+  padding: 3rem; }
+  @media only screen and (max-width: 56.25em) {
+    body {
+      padding: 0; } }
+
+::selection {
+  background-color: #55c57a;
+  color: #fff; }
+
+/* Next, set some overall font properties for the entire webpage. This time, in the universal selector, but in the body element selector. Because the properties related to font are usually inherited, so we're using the power of inheritance here. 
+
+ICONS
+We use an icon font instead of images because images dont nicely scale up and down when we scale our page. Icon fonts are vectors, and then no matter how much we would zoom in on the page, the icons will always remain nice and sharp. We can also use .svg format, but thats more advanced. We do that in the next project. 
+*/
+body {
+  /* set, the font family on the body element, which is basically the parent element
+    of all the other elements. Then this font family will get inherited, by all the child elements of the body. This way is actually more efficient, and it's a better practice than to just put all of this in the universal selector up here. We never do that. Everything related to font, we always specify it here in the body selector.  */
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  /* font-size: 16px; */
+  line-height: 1.7;
+  /* means 1.7 times bigger than the normal line-height of the font. */
+  color: #777; }
+
+.heading-primary {
+  color: #fff;
+  text-transform: uppercase;
+  /* het lijkt alsof de animatie ook iets naar boven gaat. Dit gebeurt soms bij animaties en door backface-visibility op hidden te zetten, gebeurt dit niet meer. the backface visibility property determines if the back part of an element when we transform it, */
+  backface-visibility: hidden;
+  /* ruimte tussen de header en de button toevoegen: */
+  margin-bottom: 6rem; }
+  @media only screen and (max-width: 22em) {
+    .heading-primary {
+      margin-bottom: 5rem; } }
+  .heading-primary--main {
+    /* 
+        Outdoors en is where life happens moeten onder elkaar komen te staan. Kan het beste door er block elements van te maken via de display property.  
+        */
+    display: block;
+    font-size: 6rem;
+    font-weight: 400;
+    letter-spacing: 3.5rem;
+    margin-right: -3.5rem;
+    /* look if the animation works: */
+    animation-name: moveInLeft;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+    /* begint snel en eindigt langzaam. Are lot of options. Look up at the MDN website. */
+    /*Ook mogelijk onder andere, en veel voorkomend (er is meer mogelijk maar die komen minder vaak voor: 
+        animation-delay: 5s;
+        animation-iteration-count: 3; (animatie herhaalt zich 3x) 
+        */ }
+    @media only screen and (max-width: 37.5em) {
+      .heading-primary--main {
+        letter-spacing: 1rem;
+        margin-right: -1rem; } }
+    @media only screen and (max-width: 22em) {
+      .heading-primary--main {
+        letter-spacing: .5rem;
+        margin-right: -.5rem;
+        margin-top: 10rem;
+        font-size: 5.5rem; } }
+  .heading-primary--sub {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1.75rem;
+    margin-right: -1.75rem;
+    animation: moveInRight 1s ease-out;
+    /* kunt dus ook de shorthand manier gebruiken voor de animatie */ }
+    @media only screen and (max-width: 37.5em) {
+      .heading-primary--sub {
+        letter-spacing: .5rem;
+        margin-right: -.5rem; } }
+    @media only screen and (max-width: 22em) {
+      .heading-primary--sub {
+        letter-spacing: 0.4rem;
+        margin-right: -0.4rem; } }
+
+.heading-secondary {
+  font-size: 3.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: inline-block;
+  -webkit-background-clip: text;
+  color: transparent;
+  letter-spacing: .2rem;
+  margin-right: -.2rem;
+  transition: all .2s; }
+  .heading-secondary--green {
+    background-image: linear-gradient(to right, #7ed56f, #28b485); }
+  .heading-secondary--orange {
+    background-image: linear-gradient(to right, #ffb900, #ff7730); }
+  @media only screen and (max-width: 56.25em) {
+    .heading-secondary {
+      font-size: 3rem; } }
+  @media only screen and (max-width: 37.5em) {
+    .heading-secondary {
+      font-size: 2.5rem;
+      letter-spacing: 0;
+      margin-right: 0;
+      padding: 0 2rem; } }
+  .heading-secondary:hover {
+    transform: skewY(2deg) skewX(15deg) scale(1.1);
+    text-shadow: 0.5rem 1rem 2rem rgba(0, 0, 0, 0.2); }
+    @media only screen and (max-width: 37.5em) {
+      .heading-secondary:hover {
+        transform: skewY(1deg) skewX(10deg) scale(1.1); } }
+
+.heading-tertiary {
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-transform: uppercase; }
+
+.paragraph {
+  font-size: 1.6rem; }
+  .paragraph:not(:last-child) {
+    margin-bottom: 3rem; }
+
+.u-center-text {
+  text-align: center !important; }
+
+.u-margin-bottom-small {
+  margin-bottom: 1.5rem !important; }
+
+.u-margin-bottom-medium {
+  margin-bottom: 4rem !important; }
+  @media only screen and (max-width: 56.25em) {
+    .u-margin-bottom-medium {
+      margin-bottom: 3rem !important; } }
+
+.u-margin-bottom-big {
+  margin-bottom: 8rem !important; }
+  @media only screen and (max-width: 56.25em) {
+    .u-margin-bottom-big {
+      margin-bottom: 5rem !important; } }
+
+.u-margin-top-small {
+  margin-top: 1.5rem !important; }
+
+.u-margin-top-medium {
+  margin-top: 4rem !important; }
+
+.u-margin-top-big {
+  margin-top: 8rem !important; }
+
+.u-margin-top-huge {
+  margin-top: 10rem !important; }
+
+.u-margin-left-small {
+  margin-left: 10rem !important; }
+
+.bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  opacity: .25;
+  overflow: hidden; }
+  .bg-video__content {
+    height: 100%;
+    width: 100%;
+    object-fit: cover; }
+
+.btn {
+  /* we want the color of the text of the button to be different depending of the backgroundcolor of the button so this property we going to style in the buttons we want to look the same. so all the white buttons will have dark gray color text, and all the green buttons will have white color text. we style this per color button.  */
+  /* to put an element that looks exactly as the button but we put it behind the button, use pseudo-element ::after. This is called the after pseudo-element. When we hover out of the button, this hidden pseudo-element amazingly goes back behind the button. In order for an pseudo-element to appear, you need to specify its content property. It can be empty, like here, but you have to specify it. Same thing with the display property. so you have to specify it. and in this case we say its an inline-block because the button is also an inline-block. the speudo-element is basicly treated like a child of the button. so we can say height 100% and width 100% and it will be 100% of the button. */ }
+  .btn, .btn:link, .btn:visited {
+    text-transform: uppercase;
+    text-decoration: none;
+    /* not underlined: */
+    padding: 1.5rem 4rem;
+    /* top and bottom 15px, left and right 40px */
+    /* normally its an inline element but this way the box model works on this element as if it was just a normal block element. We should always do this if we want to give some paddings ore some heights or widths to the elements.   */
+    display: inline-block;
+    /* another problem: the button is not in the center of the box. because it's an inline-block element, it is treated as if it was text. So if we want text to be in the center of a box we just use text-align: center. So we set this property in the box (header-text-center-box)  */
+    /* make the corners of the button rounded: */
+    border-radius: 10rem;
+    /* now add the animation. there are 2 types of animation: the transition property (easy one) and the (@keyframe) method that we used. For this animation we dont need the method. We just use the transition property. Now specify which properties we want to animate: if youre not sure or dont want to write them out, simply say all. So in this case, all the properties are enabled to be animated. we can also say for how long we want the animation to be. We want 2s. than in the psuedoclasses we specify what the animation should do because we want the animation to be different in hover state and in active state. */
+    transition: all .2s;
+    /* so the after pseudo-element's absolute position is referenced to the button.   */
+    position: relative;
+    font-size: 1.6rem;
+    border: none;
+    cursor: pointer; }
+    @media only screen and (max-width: 22em) {
+      .btn, .btn:link, .btn:visited {
+        padding: 1rem 2.5rem; } }
+  .btn:hover {
+    /* to move up the button use -number for Y. Y is going from top to bottom. x is going from left to right. so if you want the button to go to the left, use -number for x. Always related to the original link state. */
+    transform: translateY(-3px);
+    /* we want shadow. first one is in x direction, second one is y direction. we want 10px down, third is the blur that we want to see. we want 20px, really high blur so it looks further away. And finally put hte color. for shadow with opacity, use rgba. 0 0 0 is black and .2 is 20% opacity.  */
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2); }
+    .btn:hover::after {
+      /* we want it to be bigger if we hover over the button. So use scale() becuase it simply increase the element. if you say scale(2) it doubles the size of the size before. But you can also scale in different directions: */
+      transform: scaleX(1.4) scaleY(1.6);
+      /* And we also want this to be animated just like before. So we have to put the transition property on the initial state. which is here the speudo after element.  */
+      /* and we want the opacity to fade out. the trick for that is to set opacity: 0; */
+      opacity: 0; }
+  .btn:active, .btn:focus {
+    outline: none;
+    transform: translateY(-1px);
+    /* go litle bit up */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    /*less shadow than in hover state. values are compared to original link state.*/ }
+  .btn--white {
+    background-color: #fff;
+    color: #777;
+    /* we want the after pseudo button to be white. But in order for it to be white, we should make another after pseudo element but this time for the btn-white.   */ }
+    .btn--white::after {
+      background-color: #fff; }
+  .btn--green {
+    background-color: #55c57a;
+    color: #fff;
+    /* we want the after pseudo button to be green. But in order for it to be green, we should make another after pseudo element but this time for the btn-green   */ }
+    .btn--green::after {
+      background-color: #55c57a; }
+  .btn::after {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    border-radius: 10rem;
+    /* in order it to be behind the button: so we have to make position absolute. Then it will be absolute to the first relative element it can find. this will be header. but we want it behind the button so we have to set the position property of button to relative. */
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* z-index defines the position if the one is on top of the other. If we set it to -1 its definitely behind the button.  */
+    z-index: -1;
+    /* omdat het nu verborgen is kun je het nu niet zien. nu gaan we bepalen wanneer we het willen zien. we want to see it when we hover over the button. so add &:hover::after pseudo-element. */
+    transition: all .4s; }
+  .btn--animated {
+    animation: moveInBottom .5s ease-out .75s;
+    animation-fill-mode: backwards;
+    /* opnieuw opzoeken waarom fill-mode backwards */ }
+
+.btn-text:link, .btn-text:visited {
+  font-size: 1.6rem;
+  color: #55c57a;
+  display: inline-block;
+  text-decoration: none;
+  border-bottom: 1px solid #55c57a;
+  padding: 3px;
+  transition: all .2s;
+  text-transform: uppercase;
+  font-weight: bold; }
+
+.btn-text:hover {
+  background-color: #55c57a;
+  color: #fff;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px); }
+
+.btn-text:active {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  transform: translateY(0); }
+
+.card {
+  perspective: 150rem;
+  -moz-perspective: 150rem;
+  position: relative;
+  height: 52rem; }
+  .card__side {
+    height: 52rem;
+    transition: all .8s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.2); }
+    .card__side--front {
+      background-color: #fff; }
+    .card__side--back {
+      transform: rotateY(180deg); }
+      .card__side--back-1 {
+        background-image: linear-gradient(to right bottom, #ffb900, #ff7730); }
+      .card__side--back-2 {
+        background-image: linear-gradient(to right bottom, #7ed56f, #28b485); }
+      .card__side--back-3 {
+        background-image: linear-gradient(to right bottom, #2998ff, #5643fa); }
+  .card:hover .card__side--front {
+    transform: rotateY(-180deg); }
+  .card:hover .card__side--back {
+    transform: rotateY(0); }
+  .card__picture {
+    background-size: cover;
+    height: 23rem;
+    background-blend-mode: screen;
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px; }
+    .card__picture--1 {
+      background-image: linear-gradient(to right bottom, #ffb900, #ff7730), url(../img/nat-5.jpg); }
+    .card__picture--2 {
+      background-image: linear-gradient(to right bottom, #7ed56f, #28b485), url(../img/nat-6.jpg); }
+    .card__picture--3 {
+      background-image: linear-gradient(to right bottom, #2998ff, #5643fa), url(../img/nat-7.jpg); }
+  .card__heading {
+    font-size: 2.8rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    color: #fff;
+    position: absolute;
+    top: 12rem;
+    right: 4.5rem;
+    width: 75%;
+    text-align: center; }
+  .card__heading-span {
+    padding: 1rem 1.5rem;
+    width: 75%;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone; }
+    .card__heading-span--1 {
+      background-image: linear-gradient(to right bottom, rgba(255, 185, 0, 0.85), rgba(255, 119, 48, 0.85)); }
+    .card__heading-span--2 {
+      background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.85), rgba(40, 180, 133, 0.85)); }
+    .card__heading-span--3 {
+      background-image: linear-gradient(to right bottom, rgba(41, 152, 255, 0.85), rgba(86, 67, 250, 0.85)); }
+  .card__details {
+    padding: 3rem; }
+    .card__details ul {
+      list-style: none;
+      width: 80%;
+      margin: 0 auto; }
+      .card__details ul li {
+        text-align: center;
+        font-size: 1.5rem;
+        padding: 1rem; }
+        .card__details ul li:not(:last-child) {
+          border-bottom: 1px solid #eee; }
+  .card__cta {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    text-align: center; }
+  .card__price-box {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 8rem; }
+  .card__price-only {
+    font-size: 1.8rem;
+    text-transform: uppercase; }
+  .card__price-value {
+    font-size: 6rem;
+    font-weight: 100; }
+  @media only screen and (max-width: 56.25em), only screen and (hover: none) {
+    .card {
+      height: auto;
+      border-radius: 3px;
+      background-color: #fff;
+      box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15); }
+      .card__side {
+        height: auto;
+        position: relative;
+        box-shadow: none; }
+        .card__side--back {
+          transform: rotateY(0);
+          clip-path: polygon(0 15%, 100% 0, 100% 100%, 0% 100%); }
+      .card:hover .card__side--front {
+        transform: rotateY(0); }
+      .card__details {
+        padding: 1rem 3rem; }
+      .card__cta {
+        position: relative;
+        top: 0%;
+        left: 0;
+        transform: translate(0);
+        width: 100%;
+        padding: 7rem 4rem 4rem 4rem; }
+      .card__price-box {
+        margin-bottom: 3rem; }
+      .card__price-value {
+        font-size: 4rem; } }
+
+.composition {
+  position: relative; }
+  @media only screen and (max-width: 56.25em) {
+    .composition {
+      margin-top: 6rem; } }
+  .composition__photo {
+    width: 55%;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.4);
+    position: absolute;
+    z-index: 10;
+    transition: all .2s;
+    outline-offset: 1rem; }
+    @media only screen and (max-width: 56.25em) {
+      .composition__photo {
+        float: left;
+        position: relative;
+        width: 33.33333333%;
+        box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.2); } }
+    .composition__photo--p1 {
+      left: 0;
+      top: -2rem; }
+      @media only screen and (max-width: 56.25em) {
+        .composition__photo--p1 {
+          top: 0;
+          transform: scale(1.2); } }
+    .composition__photo--p2 {
+      right: 0;
+      top: 2rem; }
+      @media only screen and (max-width: 56.25em) {
+        .composition__photo--p2 {
+          top: -1rem;
+          transform: scale(1.3);
+          z-index: 100; } }
+    .composition__photo--p3 {
+      left: 20%;
+      top: 10rem; }
+      @media only screen and (max-width: 56.25em) {
+        .composition__photo--p3 {
+          top: 1rem;
+          left: 0;
+          transform: scale(1.1); } }
+    .composition__photo:hover {
+      outline: 1rem solid #55c57a;
+      transform: scale(1.1) translateY(-0.5rem);
+      box-shadow: 1rem 2.5rem 4rem rgba(0, 0, 0, 0.8);
+      z-index: 500;
+      transition: all .4s; }
+      @media only screen and (max-width: 22em) {
+        .composition__photo:hover {
+          outline: unset;
+          overflow: hidden; } }
+    @media only screen and (max-width: 22em) {
+      .composition__photo--p1:hover {
+        outline: unset;
+        transform: scale(4.5) translateY(-4.5rem) translateX(2rem); } }
+    @media only screen and (max-width: 22em) {
+      .composition__photo--p2:hover {
+        outline: unset;
+        transform: scale(4.5) translateY(-4.5rem) translateX(0rem); } }
+    @media only screen and (max-width: 22em) {
+      .composition__photo--p3:hover {
+        outline: unset;
+        transform: scale(4.5) translateY(-4.7rem) translateX(-2rem); } }
+  .composition:hover .composition__photo:not(:hover) {
+    transform: scale(0.95) translateY(-1rem); }
+
+.feature-box {
+  background-color: rgba(255, 255, 255, 0.8);
+  font-size: 1.5rem;
+  padding: 2.5rem;
+  text-align: center;
+  border-radius: 3px;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+  transition: transform .3s; }
+  @media only screen and (max-width: 56.25em) {
+    .feature-box {
+      padding: 3rem 5rem 4rem; } }
+  .feature-box__icon {
+    font-size: 6rem;
+    margin-bottom: .5rem;
+    background-image: linear-gradient(to right, #7ed56f, #28b485);
+    display: inline-block;
+    -webkit-background-clip: text;
+    color: transparent; }
+    @media only screen and (max-width: 56.25em) {
+      .feature-box__icon {
+        margin-bottom: 0; } }
+  .feature-box:hover {
+    transform: translateY(-1.5rem) scale(1.1); }
+
+.form__group:not(:last-child) {
+  margin-bottom: 2rem; }
+  @media only screen and (max-width: 56.25em) {
+    .form__group:not(:last-child) {
+      margin-bottom: 0; } }
+
+@media only screen and (max-width: 56.25em) {
+  .form__group:last-child {
+    text-align: center; } }
+
+.form__input {
+  font-size: 1.5rem;
+  font-family: inherit;
+  color: inherit;
+  padding: 1.5rem 2rem;
+  border-radius: 2px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  border-bottom: 3px solid transparent;
+  width: 90%;
+  display: block;
+  transition: all .3s; }
+  @media only screen and (max-width: 56.25em) {
+    .form__input {
+      width: 100%; } }
+  .form__input:focus {
+    outline: none;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+    border-bottom: 3px solid #55c57a; }
+  .form__input:focus:invalid {
+    border-bottom: 3px solid #ff7730; }
+  .form__input::-webkit-input-placeholder {
+    color: #999; }
+
+.form__label {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-left: 2rem;
+  margin-top: .7rem;
+  display: block;
+  transition: all .3s; }
+
+.form__input:placeholder-shown + .form__label {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4rem); }
+
+.form__radio-group {
+  width: 49%;
+  display: inline-block; }
+  @media only screen and (max-width: 56.25em) {
+    .form__radio-group {
+      width: 100%;
+      margin: 2.5rem 0; } }
+
+.form__radio-input {
+  display: none; }
+
+.form__radio-label {
+  font-size: 1.6rem;
+  cursor: pointer;
+  position: relative;
+  padding-left: 4.5rem; }
+
+.form__radio-button {
+  height: 3rem;
+  width: 3rem;
+  border: 5px solid #55c57a;
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  top: -.4rem; }
+  .form__radio-button::after {
+    content: "";
+    display: block;
+    height: 1.3rem;
+    width: 1.3rem;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #55c57a;
+    opacity: 0;
+    transition: opacity .2s; }
+
+.form__radio-input:checked + .form__radio-label .form__radio-button::after {
+  opacity: 1; }
+
+.story {
+  width: 75%;
+  margin: 0 auto;
+  box-shadow: 0 3rem 6rem rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 3px;
+  padding: 6rem;
+  padding-left: 9rem;
+  font-size: 1.6rem;
+  transform: skewX(-12deg); }
+  @media only screen and (max-width: 56.25em) {
+    .story {
+      width: 100%;
+      padding: 4rem;
+      padding-left: 7rem; } }
+  @media only screen and (max-width: 37.5em) {
+    .story {
+      transform: skewX(0);
+      width: 90%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem; } }
+  .story__shape {
+    width: 15rem;
+    height: 15rem;
+    float: left;
+    -webkit-shape-outside: circle(50% at 50% 50%);
+    shape-outside: circle(50% at 50% 50%);
+    -webkit-clip-path: circle(50% at 50% 50%);
+    clip-path: circle(50% at 50% 50%);
+    transform: translateX(-3rem) skewX(12deg);
+    position: relative;
+    overflow: hidden; }
+    @media only screen and (max-width: 37.5em) {
+      .story__shape {
+        transform: translateX(0) skewX(0);
+        float: unset;
+        overflow: unset; } }
+  .story__img {
+    height: 100%;
+    transform: translateX(-4rem) scale(1.4);
+    backface-visibility: hidden;
+    transition: all .5s; }
+  .story__text {
+    transform: skewX(12deg); }
+    @media only screen and (max-width: 37.5em) {
+      .story__text {
+        transform: skewX(0);
+        text-align: center;
+        margin-top: 2rem; } }
+  .story__caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 20%);
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 1.7rem;
+    text-align: center;
+    opacity: 0;
+    transition: all .5s;
+    backface-visibility: hidden; }
+  .story:hover .story__caption {
+    opacity: 1;
+    transform: translate(-50%, -50%); }
+  .story:hover .story__img {
+    transform: translateX(-4rem) scale(1);
+    filter: blur(3px) brightness(80%); }
+
+.popup {
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all .3s; }
+  @supports (-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px)) {
+    .popup {
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      background-color: rgba(0, 0, 0, 0.3); } }
+  @media only screen and (max-width: 22em) {
+    .popup {
+      display: flex; } }
+  .popup__content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 75%;
+    background-color: #fff;
+    box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    display: table;
+    overflow: hidden;
+    opacity: 0;
+    transform: translate -50%, -50% scale(0);
+    transition: all .5s .2s; }
+    @media only screen and (max-width: 22em) {
+      .popup__content {
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 2 0 0;
+        flex-wrap: wrap;
+        align-content: center;
+        text-align: center;
+        height: 100vh; } }
+  .popup__left {
+    width: 33.3333333%;
+    display: table-cell; }
+    @media only screen and (max-width: 22em) {
+      .popup__left {
+        flex: 1 1 0; } }
+  .popup__right {
+    width: 66.6666667%;
+    display: table-cell;
+    vertical-align: middle;
+    padding: 3rem 5rem; }
+    @media only screen and (max-width: 22em) {
+      .popup__right {
+        width: 100vw;
+        max-height: 75vh;
+        display: flex;
+        flex-direction: column;
+        padding: 0 1rem;
+        align-items: center;
+        flex: 2 1 0;
+        margin-top: -5rem; } }
+  .popup__img {
+    display: block;
+    width: 100%; }
+    @media only screen and (max-width: 22em) {
+      .popup__img {
+        width: 100vw;
+        position: relative;
+        z-index: -10;
+        height: 25vh;
+        object-fit: cover; } }
+  @media only screen and (max-width: 22em) {
+    .popup__img:last-child {
+      display: none; } }
+  .popup__text {
+    font-size: 1.4rem;
+    margin-bottom: 4rem;
+    -moz-column-count: 2;
+    -moz-column-gap: 4rem;
+    -moz-column-rule: 1px solid #eee;
+    column-count: 2;
+    column-gap: 4rem;
+    column-rule: 1px solid #eee;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto; }
+    @media only screen and (max-width: 22em) {
+      .popup__text {
+        margin-bottom: 0;
+        display: flex;
+        column-count: unset;
+        -moz-column-count: unset;
+        padding: 0 2rem 2rem;
+        line-height: 1.2;
+        text-align: justify; } }
+  .popup:target {
+    opacity: 1;
+    visibility: visible; }
+  .popup:target .popup__content {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1); }
+  .popup__close:link, .popup__close:visited {
+    color: #777;
+    position: absolute;
+    top: 2.5rem;
+    right: 2.5rem;
+    font-size: 3rem;
+    text-decoration: none;
+    display: inline-block;
+    transition: all .2s;
+    line-height: 1; }
+    @media only screen and (max-width: 22em) {
+      .popup__close:link, .popup__close:visited {
+        font-size: 5rem;
+        right: 4rem;
+        color: #fff; } }
+  .popup__close:hover, .popup__close:active {
+    color: #55c57a; }
+
+.footer {
+  background-color: #333;
+  padding: 10rem;
+  font-size: 1.4rem;
+  color: #f7f7f7; }
+  @media only screen and (max-width: 56.25em) {
+    .footer {
+      padding: 6rem 0; } }
+  .footer__logo-box {
+    text-align: center;
+    margin-bottom: 8rem; }
+    @media only screen and (max-width: 56.25em) {
+      .footer__logo-box {
+        margin-bottom: 6rem; } }
+  .footer__logo {
+    width: 15rem;
+    height: auto; }
+    @media only screen and (max-width: 37.5em) {
+      .footer__logo {
+        width: 10rem;
+        height: auto; } }
+  .footer__navigation {
+    border-top: 1px solid #999;
+    padding-top: 2rem;
+    padding-inline-start: 0;
+    display: inline-block; }
+    @media only screen and (max-width: 56.25em) {
+      .footer__navigation {
+        width: 100%;
+        text-align: center; } }
+  .footer__list {
+    list-style: none;
+    padding-inline-start: 0; }
+    @media only screen and (max-width: 37.5em) {
+      .footer__list {
+        width: 100%;
+        text-align: center;
+        padding: 0 5rem; } }
+    @media only screen and (max-width: 22em) {
+      .footer__list {
+        width: 100%;
+        text-align: center;
+        padding: 0 2.5rem; } }
+  .footer__item {
+    display: inline-block; }
+    .footer__item:not(:last-child) {
+      margin-right: 1.5rem; }
+  .footer__link:link, .footer__link:visited {
+    color: #f7f7f7;
+    background-color: #333;
+    text-decoration: none;
+    text-transform: uppercase;
+    display: inline-block;
+    transition: all .2s; }
+  .footer__link:hover, .footer__link:active {
+    color: #55c57a;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.4);
+    transform: rotate(3deg) scale(1.1); }
+  .footer__copyright {
+    border-top: 1px solid #999;
+    padding-top: 2rem;
+    width: 78%;
+    float: right; }
+    @media only screen and (max-width: 56.25em) {
+      .footer__copyright {
+        width: 100%;
+        float: none; } }
+
+.row {
+  max-width: 114rem;
+  margin: 0 auto; }
+  .row:not(:last-child) {
+    margin-bottom: 8rem; }
+    @media only screen and (max-width: 56.25em) {
+      .row:not(:last-child) {
+        margin-bottom: 6rem; } }
+  @media only screen and (max-width: 56.25em) {
+    .row {
+      max-width: 50rem;
+      padding: 0 3rem; } }
+  .row::after {
+    content: "";
+    display: table;
+    clear: both; }
+  .row [class^="col-"] {
+    float: left; }
+    .row [class^="col-"]:not(:last-child) {
+      margin-right: 6rem; }
+      @media only screen and (max-width: 56.25em) {
+        .row [class^="col-"]:not(:last-child) {
+          margin-right: 0;
+          margin-bottom: 6rem; } }
+      @media only screen and (max-width: 37.5em) {
+        .row [class^="col-"]:not(:last-child) {
+          margin-bottom: 2rem; } }
+    @media only screen and (max-width: 56.25em) {
+      .row [class^="col-"] {
+        width: 100% !important; } }
+  .row .col-1-of-2 {
+    width: calc((100% - 6rem) / 2); }
+  .row .col-1-of-3 {
+    width: calc((100% - 2 * 6rem) / 3); }
+  .row .col-2-of-3 {
+    width: calc(2 * ((100% - 2 * 6rem) / 3) + 6rem); }
+  .row .col-1-of-4 {
+    width: calc((100% - 3 * 6rem) / 4); }
+  .row .col-2-of-4 {
+    width: calc(2 * ((100% - 3 * 6rem) / 4) + 6rem); }
+  .row .col-3-of-4 {
+    width: calc(3 * ((100% - 3 * 6rem) / 4) + 2 * 6rem); }
+
+.header {
+  /* this sets at every point,the height of this box, of this element, to be 95% of the viewport height. if you choose 100vh the height will exactly match the viewport. */
+  height: 85vh;
+  /* Now we're currently in the CSS folder, so we first have to go one folder up to go into the project folder. So it's ../ then, img, and then the name of the image, hero.jpg */
+  /* To specify gradient, always use the background-image property. We want that nice green gradient all over the image. We use background image again, because to specify gradients we always use the background image property. We already have the background image property here with the image. So what can we do? We simply specify a second one. And what we do is to use the comma. Now we want the background to stay on top and so it actually has to be first background image that we specify. We put a gradient here and then comma, the image. Linear gradient and then the colors that we want. And we actually have the colors up here, so we start with the light green on one side. And then comma, and on the other side, the dark green. We have basically two background images, one on top of the other. The first one is the linear gradient.And then after that, so basically below that is this hero image. Another parameter that we can specify in the linear gradient is to where the gradient should go. We can say to right. And so now CSS understands that it should start on the left side and go to the right. */
+  background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.8), rgba(40, 180, 133, 0.8)), url(../img/hero.jpg);
+  /* What cover does= whatever the width of the viewport, or the element, it'll always try to fit the element inside of the box. */
+  background-size: cover;
+  /* zorgt dat de bovenkant van de image altijd bovenaan de pagina te zien blijft als je de viewport kleiner maakt. Kunt dit ook op bottom of center zetten. */
+  background-position: top;
+  /* snij een stuk van de image aan de onderkant af met clip-path. Je specificeert dan de polygon die te zien blijft op de pagina: van links boven, naar rechts boven, rechts onder tot links onder.
+    polygon(x y(=links boven), x y (=rechts boven), x y(= rechts onder), x y(=links onder). Image moet gewoon in de linker bovenhoek beginnen dus je verandert de x en y niet (0 0). Van links boven tot rechts boven moet de image het gehele element bedekken dus x rechts boven is 100% verder dan x links boven. Y verandert niet dus (100% 0). Rechts onderin is x nog steeds 100% breed vanuit links. Maar y vanaf de top verandert nu. de verandering zet je in vh (viewport height) omdat de image dan altijd zn vorm blijft behouden als je de webpagina (en dus de viewport) groter of kleiner maakt)*/
+  /* https://bennettfeely.com/clippy/ has all sorts of polygon examples you can draw using clip-path! */
+  position: relative;
+  /* om de titel van de webpage en de button eronder in het midden te krijgen zet je de positie van de div op absolute. Als je het midden met top en left aangeeft dan komt het niet in het midden want dan komt de linkerkant van de div en de bovenkant van de div alleen in het midden. Daar kan je via de transform: translate() property iets aan doen.  */ }
+  @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
+    .header {
+      -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+      clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+      height: 90vh; } }
+  @media only screen and (min-resolution: 192dpi) and (min-width: 37.5em), only screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), only screen and (min-width: 125em) {
+    .header {
+      background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.8), rgba(40, 180, 133, 0.8)), url(../img/hero.jpg); } }
+  @media only screen and (max-width: 56.25em) {
+    .header {
+      -webkit-clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
+      clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
+      height: 85vh; } }
+  .header__logo-box {
+    /* Het logo moet links bovenaan komen. One good way of doing this is absolute positioning */
+    position: absolute;
+    top: 4rem;
+    left: 4rem;
+    /* maar wat is de origin van de top en left? De positie van de logo-box div is absoluut tov zijn parent element die relatief is. De header is de parent element dus die moet op position: relative; gezet worden.  */ }
+  .header__logo {
+    /* specify the height of the image itself. We dont need to specify the width because the width will scale accordingly. kunt het ook andersom doen, alleen de width specificeren maar het is beter om altijd de hoogte te specificeren. Nu is het goed moment om de heading aan het html document toe te voegen. */
+    height: 3.5rem; }
+  .header__text-box {
+    position: absolute;
+    top: 40%;
+    /* related to the parent element */
+    left: 50%;
+    /* related to the parent element */
+    transform: translate(-50%, -50%);
+    /* in relation to the element itself */
+    text-align: center; }
+
+.navigation__checkbox {
+  display: none; }
+
+.navigation__button {
+  background-color: #fff;
+  height: 7rem;
+  width: 7rem;
+  position: fixed;
+  top: 6rem;
+  right: 6rem;
+  border-radius: 50%;
+  z-index: 2000;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
+  text-align: center;
+  cursor: pointer; }
+  @media only screen and (max-width: 56.25em) {
+    .navigation__button {
+      top: 4rem;
+      right: 4rem; } }
+  @media only screen and (max-width: 37.5em) {
+    .navigation__button {
+      top: 3rem;
+      right: 3rem; } }
+  @media only screen and (max-width: 22em) {
+    .navigation__button {
+      height: 5.5rem;
+      width: 5.5rem; } }
+
+.navigation__background {
+  height: 6rem;
+  width: 6rem;
+  border-radius: 50%;
+  position: fixed;
+  top: 6.5rem;
+  right: 6.5rem;
+  background-image: radial-gradient(#7ed56f, #28b485);
+  z-index: 1000;
+  transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1); }
+  @media only screen and (max-width: 56.25em) {
+    .navigation__background {
+      top: 4.5rem;
+      right: 4.5rem; } }
+  @media only screen and (max-width: 37.5em) {
+    .navigation__background {
+      top: 3.5rem;
+      right: 3.5rem; } }
+  @media only screen and (max-width: 22em) {
+    .navigation__background {
+      height: 3.5rem;
+      width: 3.5rem; } }
+
+.navigation__nav {
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1500;
+  opacity: 0;
+  width: 0;
+  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+
+.navigation__list {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  list-style: none;
+  text-align: center;
+  width: 100%; }
+
+.navigation__item {
+  margin: 1rem; }
+
+.navigation__link:link, .navigation__link:visited {
+  display: inline-block;
+  font-size: 3rem;
+  font-weight: 300;
+  padding: 1rem 2rem;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-image: linear-gradient(120deg, transparent 0%, transparent 50%, #fff 50%);
+  background-size: 230%;
+  transition: all .4s;
+  margin-right: 1.5rem; }
+
+.navigation__link:hover, .navigation__link:active {
+  background-position: 100%;
+  color: #55c57a;
+  transform: translate(1rem); }
+
+.navigation__checkbox:checked ~ .navigation__background {
+  transform: scale(80); }
+
+.navigation__checkbox:checked ~ .navigation__nav {
+  opacity: 1;
+  width: 100%; }
+
+.navigation__icon {
+  position: relative;
+  margin-top: 3.5rem; }
+  @media only screen and (max-width: 22em) {
+    .navigation__icon {
+      margin-top: 2.8rem; } }
+  .navigation__icon, .navigation__icon::before, .navigation__icon::after {
+    width: 3rem;
+    height: 2px;
+    background-color: #333;
+    display: inline-block; }
+  .navigation__icon::before, .navigation__icon::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    transition: all .4s; }
+  .navigation__icon::before {
+    top: -.8rem; }
+  .navigation__icon::after {
+    top: .8rem; }
+
+.navigation__button:hover .navigation__icon::before {
+  top: -1rem; }
+
+.navigation__button:hover .navigation__icon::after {
+  top: 1rem; }
+
+.navigation__checkbox:checked + .navigation__button .navigation__icon {
+  background-color: transparent; }
+
+.navigation__checkbox:checked + .navigation__button .navigation__icon::before {
+  top: 0;
+  transform: rotate(135deg); }
+
+.navigation__checkbox:checked + .navigation__button .navigation__icon::after {
+  top: 0;
+  transform: rotate(-135deg); }
+
+.section-about {
+  background-color: #f7f7f7;
+  padding: 25rem 0;
+  margin-top: -15vh; }
+  @media only screen and (max-width: 56.25em) {
+    .section-about {
+      padding: 2rem 0;
+      margin: 0 0 20rem;
+      text-align: center; } }
+  @media only screen and (max-width: 22em) {
+    .section-about {
+      padding: 10rem 2rem 15rem;
+      margin: -5rem 0 15rem; } }
+
+.section-features {
+  padding: 20rem 0;
+  background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.8), rgba(40, 180, 133, 0.8)), url(../img/nat-4.jpg);
+  background-size: cover;
+  margin-top: -10rem;
+  transform: skewY(-7deg); }
+  .section-features > * {
+    transform: skewY(7deg); }
+  @media only screen and (max-width: 56.25em) {
+    .section-features {
+      padding: 10rem 0;
+      margin-top: -20rem; } }
+
+.section-tours {
+  background-color: #f7f7f7;
+  padding: 20rem 0 8rem 0;
+  margin-top: -10rem; }
+  @media only screen and (max-width: 56.25em) {
+    .section-tours {
+      padding: 20rem 0 10rem 0; } }
+  @media only screen and (max-width: 37.5em) {
+    .section-tours {
+      padding: 8rem 0 6rem 0;
+      margin-top: -3rem; } }
+
+.section-stories {
+  position: relative;
+  padding: 5rem 0; }
+  @media only screen and (max-width: 56.25em) {
+    .section-stories {
+      padding: 7rem 0; } }
+
+.section-book {
+  padding: 15rem 0;
+  background-image: linear-gradient(to right bottom, #7ed56f, #28b485); }
+  @media only screen and (max-width: 56.25em) {
+    .section-book {
+      padding: 10rem 0; } }
+
+.book {
+  background-image: linear-gradient(105deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 50%, transparent 50%), url(../img/nat-10.jpg);
+  background-size: 100%;
+  border-radius: 3px;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.2); }
+  @media only screen and (max-width: 75em) {
+    .book {
+      background-image: linear-gradient(105deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 65%, transparent 65%), url(../img/nat-10.jpg);
+      background-size: cover; } }
+  @media only screen and (max-width: 56.25em) {
+    .book {
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 100%), url(../img/nat-10.jpg); } }
+  .book__form {
+    width: 50%;
+    padding: 6rem; }
+    @media only screen and (max-width: 75em) {
+      .book__form {
+        width: 65%; } }
+    @media only screen and (max-width: 56.25em) {
+      .book__form {
+        width: 100%; } }

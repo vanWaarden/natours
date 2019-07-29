@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/icon-font.css"> 
+        
+        <!-- while developing you still need it but once youre done you can comment this out bec you dont need this anymore because its now already included in the style.css file -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png">
+
+    <title>Natours | Exciting tours for adventurous people</title>
+</head>
+
+<body>
+
+    <div class="navigation">
+        <input type="checkbox" class="navigation__checkbox" id="navi-toggle">
+
+        <label for="navi-toggle" class="navigation__button">
+            <span class="navigation__icon">&nbsp;</span> <!-- it will be empty so lets put &nbsp; in it-->
+        </label>
+        <!-- background will be empty so therefore put &nbsp; in it -->
+        <div class="navigation__background">&nbsp;</div>
+        <!-- on top of the background, put the navigation itself. This will be the huge container spending the entire page: -->
+        <nav class="navigation__nav">
+            <ul class="navigation__list">
+                <li class="navigation__item"><a href="#" class="navigation__link">About Natours</a></li>
+                <li class="navigation__item"><a href="#" class="navigation__link">Your benefits</a></li>
+                <li class="navigation__item"><a href="#" class="navigation__link">Popular tours</a></li>
+                <li class="navigation__item"><a href="#" class="navigation__link">Stories</a></li>
+                <li class="navigation__item"><a href="#" class="navigation__link">Book now</a></li>
+            </ul>
+        </nav>
+    </div>
+    <!-- you want to give each and every element a class name.
+        The header will contain the whole first section of the website. Green image + the elements on/in it. Introducing the BEM method: block is standalone component that is meaningful on its one. All the elements that are inside it should also have the header attached to them. So the logo-box can only really exist in the header. -->
+    <header class="header">
+        <!-- to put the logo in the header. First, in the HTML, we actually have to add that image. Add first a DIV, and then inside that DIV we're gonna put an image. Because the image is an inline element, it's a better practice to first have a small container where this image is inside, and then position that container to where we want the image and the container to be. Alt description is for SEO and for the case that the image fails to load.Same thing for logo. Because this logo, with this exact size and image only just exists in the header. To show that elements belong to a block use blockname__elements-blockname. Same goes for __text-box because the __text-box is a part of the header and it doesnt make much sense to use it anywhere else. The heading-primary is a standalone block because we might want to use it anywhere else on the page or a different page. The heading-primary--main and the heading-primary--sub are modefiers of the heading-primary. Because they simply create a slightly different version of this heading-primary class (block). Modifiers are marked with blockName--modifierName. Btn is standalone block. because we gonna use it troughout the entire page. Btn--white and btn--animated are modifiers of the btn because they are simply different versions of the button. So use btn--white etc.  -->
+        <div class="header__logo-box">
+            <img src="img/logo-white.png" alt="Logo" class="header__logo">
+        </div>
+
+        <!-- de titel van de pagina en een button moeten in het midden komen van de header div dus we maken een nieuwe div om ze alle '3' in een keer in het midden te plaatsen) -->
+        <div class="header__text-box">
+            <!-- We want the heading basically to have two parts, but all in H1. Because the H1 is the single most important heading on the page, which is important for SEO to figure out what our webpage is all about. The whole title of the page should be in H1, not just OUTDOORS. because we don't want our primary text or title of the website to say just outdoors. And so we must somehow divide this text. The span element is perfect for this because a span is simply to style some text different. And so we can just put two span elements in here, one for each part.-->
+            <h1 class="heading-primary">
+                <span class="heading-primary--main">Outdoors</span>
+                <span class="heading-primary--sub">is where life happens</span>
+            </h1>
+<!-- #section-tours in the href can make of a anchor tag makes the button go to section-tours. section tours needs to be an id for the section tours. so the section you want to go to in the page. giv this section an id and place this in the href-->
+            <a href="#section-tours" class="btn btn--white btn--animated">Discover our tours</a>
+        </div>
+    </header>
+
+    <!-- rest of the site and last part of the site is the footer.  -->
+    <main>
+        <!-- further we use Emmet. because it makes it possible to write html lot faster. there are only 2-3 rules you need to know: 
+        1. if you want to write a div with a class test -> .test is all you have to do and emmet will do the rest.  
+        2. if you want another element to give a class with name test -> html element.className and hit enter or tab. 
+        
+        .test enter -> <div class="test"></div>
+        section.section-about enter -> <section class="section-about"></section>
+        -->
+
+        <!-- style this about section in the homepage file bec it will only be on the homepage. Even if the site grows.-->
+        <section class="section-about">
+            <!-- style this div in the utilities file to center the text which is inside of the div. Utilities classes are very simple, they only have one simple goal. Call it like this so you can easily reuse this class. Same goes for the utilities class margin bottom. We want to reuse the h2 couple of times in the page but not with the same margin-bottom everytime.-->
+            <div class="u-center-text u-margin-bottom-big">
+                <!-- style h2 in typography  -->
+                <h2 class="heading-secondary heading-secondary--green">
+                    Exciting tours for adventurous people
+                </h2>
+            </div>
+
+            <div class="row">
+                <div class="col-1-of-2">
+                    <!-- style h3 as well as p in typography -->
+                    <h3 class="heading-tertiary u-margin-bottom-small">You're going to fall in love with nature</h3>
+                    <p class="paragraph">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Non officiis quisquam dolores enim quas
+                        cupiditate assumenda perferendis neque dignissimos reprehenderit 
+                    </p>
+
+                    <h3 class="heading-tertiary u-margin-bottom-small">Live adventures like you never have before</h3>
+                    <p class="paragraph">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, harum eveniet sint
+                        architecto labore earum sed fuga
+                    </p>
+                    <!-- &rarr; will trandslate into an arrow. style in the button file. On this resources page are all html tricks listed http://codingheroes.io/resources/ -->
+                    <a href="#" class="btn-text">Learn more &rarr;</a>
+                </div>
+                <div class="col-1-of-2">
+                    <div class="composition">
+                        <img src="img/nat-3-large.jpg" alt="Photo 1" class="composition__photo composition__photo--p1">
+                        <img src="img/nat-2-large.jpg" alt="Photo 2" class="composition__photo composition__photo--p2">
+                        <img src="img/nat-1-large.jpg" alt="Photo 3" class="composition__photo composition__photo--p3">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- style section-features in home page file.  -->
+        <section class="section-features">
+            <!-- make the 4 feature boxes: make a row with 4 columns: col-1-of-4. Leave it apart because we want to make no scaling in there and no adding additional padding. These kind of things we add another box in it. So we make a div class feature-box. This box we style in components folder and make a new file for it. -->
+            <div class="row">
+                <div class="col-1-of-4">
+                    <div class="feature-box">
+                        <!-- how we can use the icons that we included from the icon font. We use i because it is no longer used in html to make text italic so its 'free'. So now its convention to use it for icons. -->
+                        <i class="feature-box__icon icon-basic-world"></i>
+                        <h3 class="heading-tertiary u-margin-bottom-small">Explore the world</h3>
+                        <p class="feature-box__text">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, harum eveniet sint
+                            architecto labore earum sed fuga dolor quam.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-1-of-4">
+                    <div class="feature-box">
+                        <!-- how we can use the icons that we included from the icon font. We use i because it is no longer used in html to make text italic so its 'free'. So now its convention to use it for icons. -->
+                        <i class="feature-box__icon icon-basic-compass"></i>
+                        <h3 class="heading-tertiary u-margin-bottom-small">Meet nature</h3>
+                        <p class="feature-box__text">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, harum eveniet sint
+                            architecto labore earum sed fuga dolor quam.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-1-of-4">
+                    <div class="feature-box">
+                        <!-- how we can use the icons that we included from the icon font. We use i because it is no longer used in html to make text italic so its 'free'. So now its convention to use it for icons. -->
+                        <i class="feature-box__icon icon-basic-map"></i>
+                        <h3 class="heading-tertiary u-margin-bottom-small">Find your way</h3>
+                        <p class="feature-box__text">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, harum eveniet sint architecto labore earum sed fuga dolor quam.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-1-of-4">
+                    <div class="feature-box">
+                        <!-- how we can use the icons that we included from the icon font. We use i because it is no longer used in html to make text italic so its 'free'. So now its convention to use it for icons. -->
+                        <i class="feature-box__icon icon-basic-heart"></i>
+                        <h3 class="heading-tertiary u-margin-bottom-small">Live healthy</h3>
+                        <p class="feature-box__text">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, harum eveniet sint
+                            architecto labore earum sed fuga dolor quam.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-tours" id="section-tours">
+            <!-- style in home file -->
+            <div class="u-center-text u-margin-bottom-big">
+                <h2 class="heading-secondary heading-secondary--green">
+                    Most popular tours
+                </h2>
+            </div>
+            <!-- style cards as component in components/cards file -->
+            <div class="row">
+                <div class="col-1-of-3">
+                    <!-- were not touching the column grid in any way, were creating a seperate div just for the card. -->
+                    <div class="card">
+                        <div class="card__side card__side--front">
+                            <!-- we keep the block card and add 3 new elements to it. thats how the BEM methodoligy works -->
+                            <div class="card__picture card__picture--1">
+                                &nbsp;
+                                <!-- = empty space -->
+                            </div>
+                            <h4 class="card__heading">
+                                <span class="card__heading-span card__heading-span--1">
+                                    The Sea Explorer
+                                </span>
+                            </h4>
+                            <div class="card__details">
+                                <ul>
+                                    <li>3 day tours</li>
+                                    <li>Up to 30 people</li>
+                                    <li>2 tour guides</li>
+                                    <li>Sleep in cozy hotels </li>
+                                    <li>Difficulty: easy</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- We have 3 different backsides: 3 different colors: -->
+                        <div class="card__side card__side--back card__side--back-1">
+                            <div class="card__cta">
+                                <!-- cta= call to action -->
+                                <div class="card__price-box">
+                                    <p class="card__price-only">Only</p>
+                                    <p class="card__price-value">$297</p>
+                                </div>
+                                <a href="#popup" class="btn btn--white">Book now!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-1-of-3">
+                    <!-- were not touching the column grid in any way, were creating a seperate div just for the card. -->
+                    <div class="card">
+                        <div class="card__side card__side--front">
+                            <!-- we keep the block card and add 3 new elements to it. thats how the BEM methodoligy works -->
+                            <div class="card__picture card__picture--2">
+                                &nbsp;
+                                <!-- = empty space -->
+                            </div>
+                            <h4 class="card__heading">
+                                <span class="card__heading-span card__heading-span--2">
+                                    The forest hiker
+                                </span>
+                            </h4>
+                            <div class="card__details">
+                                <ul>
+                                    <li>7 day tours</li>
+                                    <li>Up to 40 people</li>
+                                    <li>6 tour guides</li>
+                                    <li>Sleep in provided tents</li>
+                                    <li>Difficulty: medium</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- We have 3 different backsides: 3 different colors: -->
+                        <div class="card__side card__side--back card__side--back-2">
+                            <div class="card__cta">
+                                <!-- cta= call to action -->
+                                <div class="card__price-box">
+                                    <p class="card__price-only">Only</p>
+                                    <p class="card__price-value">$497</p>
+                                </div>
+                                <a href="#popup" class="btn btn--white">Book now!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-1-of-3">
+                    <!-- were not touching the column grid in any way, were creating a seperate div just for the card. -->
+                    <div class="card">
+                        <div class="card__side card__side--front">
+                            <!-- we keep the block card and add 3 new elements to it. thats how the BEM methodoligy works -->
+                            <div class="card__picture card__picture--3">
+                                &nbsp;
+                                <!-- = empty space -->
+                            </div>
+                            <h4 class="card__heading">
+                                <span class="card__heading-span card__heading-span--3">
+                                    The snow adventurer
+                                </span>
+                            </h4>
+                            <div class="card__details">
+                                <ul>
+                                    <li>5 day tours</li>
+                                    <li>Up to 15 people</li>
+                                    <li>3 tour guides</li>
+                                    <li>Sleep in provided tents</li>
+                                    <li>Difficulty: hard</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- We have 3 different backsides: 3 different colors: -->
+                        <div class="card__side card__side--back card__side--back-3">
+                            <div class="card__cta">
+                                <!-- cta= call to action -->
+                                <div class="card__price-box">
+                                    <p class="card__price-only">Only</p>
+                                    <p class="card__price-value">$897</p>
+                                </div>
+                                <a href="#popup" class="btn btn--white">Book now!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <div class="u-center-text">
+                <a href="#" class="btn  btn--green">Discover all tours</a>
+            </div>
+
+        </section>
+
+        <section class="section-stories">
+            <!-- formatting section-stories in the home file -->
+            <div class="bg-video">
+                <video class="bg-video__content" autoplay muted loop>
+                    <!-- speelt automatisch af en zonder geluid en in een loop.  -->
+                    <source src="img/video.mp4" type="video/mp4">
+                    <source src="img/video.webm" type="video/webm">
+                    <!-- we need these two formats to make sure that they work on all modern browsers -->
+                    Your browser is not supported!
+                </video>
+            </div>
+            <div class="u-center-text u-margin-bottom-big u-margin-top-small">
+                <h2 class="heading-secondary heading-secondary--orange ">
+                    We make people genuinely happy
+                </h2>
+            </div>
+            <!-- we gebruiken een row vanwege de nicely centered container that the row gives us and we also make use of the margin-bottom that this row already has. maar gebruiken geen columns -->
+            <div class="row">
+                <div class="story">
+                    <!-- block element inside a block element.  -->
+                    <!-- to make the image round left from the story, use figure because this is sematically the best thing to do because we will have an image and a caption inside the image (name). With the fig caption element we can do that if we use the figure element. -->
+                    <figure class="story__shape">
+                        <!-- defines where the image and the text around it will be placed -->
+                        <img src="img/nat-8.jpg" alt="Person on a tour" class="story__img">
+                        <figcaption class="story__caption">Mary Smith</figcaption>
+                    </figure>
+                    <div class="story__text">
+                        <h3 class="heading-tertiary u-margin-bottom-small">I had the best week ever with my family</h3>
+                        <p>
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ut recusandae est possimus sit
+                            harum reiciendis. Blanditiis, modi beatae. Pariatur laudantium molestias reprehenderit eius
+                            adipisci dignissimos ducimus recusandae, laborum ea excepturi?
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="story">
+                    <!-- block element inside a block element.  -->
+                    <!-- to make the image round left from the story, use figure because this is sematically the best thing to do because we will have an image and a caption inside the image (name). With the fig caption element we can do that if we use the figure element. -->
+                    <figure class="story__shape">
+                        <!-- defines where the image and the text around it will be placed -->
+                        <img src="img/nat-9.jpg" alt="Person on a tour" class="story__img">
+                        <figcaption class="story__caption">Jack Wilson</figcaption>
+                    </figure>
+                    <div class="story__text">
+                        <h3 class="heading-tertiary u-margin-bottom-small">WOW! My life is completely different now.
+                        </h3>
+                        <p>
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ut recusandae est possimus sit
+                            harum reiciendis. Blanditiis, modi beatae. Pariatur laudantium molestias reprehenderit eius
+                            adipisci dignissimos ducimus recusandae, laborum ea excepturi?
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="u-center-text">
+                <a href="#" class="btn-text">Read all stories &rarr;</a>
+            </div>
+        </section>
+        <!-- book form tours: -->
+        <section class="section-book" id="book">
+            <!-- styling in home file. this is the entire section book. -->
+            <div class="row">
+                <!-- this is for the book section to be nicely centered. -->
+                <div class="book">
+                    <!-- styling in home file as well. only the styling elements that are not really reusable  -->
+                    <div class="book__form">
+                        <form action="#" class="form">
+                            <div class="u-margin-bottom-medium">
+                                <h2 class="heading-secondary heading-secondary--green u-center-text">
+                                    Start booking now
+                                </h2>
+                            </div>
+                            <!-- making groups. one group per field and label.  -->
+                            <div class="form__group">
+                                <input type="text" class="form__input" placeholder="Full name" id="name" required>
+                                <!-- put an id in: id="name" so the input can be linked to the label: -->
+                                <label for="name" class="form__label">Full name</label>
+                            </div>
+
+                            <div class="form__group">
+                                <input type="email" class="form__input" placeholder="Email address" id="email" requred>
+                                <!-- put an id in: id="name" so the input can be linked to the label: -->
+                                <label for="email" class="form__label">Email address</label>
+                            </div>
+                            <!-- radio buttons: -->
+                            <div class="form__group u-margin-bottom-medium">
+                                <div class="form__radio-group">
+                                    <input type="radio" class="form__radio-input" id="small" name="size">
+                                    <label for="small" class="form__radio-label">
+                                        <span class="form__radio-button"></span>Small tour group
+                                    </label>
+                                </div>
+                                <div class="form__radio-group">
+                                    <input type="radio" class="form__radio-input" id="large" name="size">
+                                    <label for="large" class="form__radio-label">
+                                        <span class="form__radio-button"></span>Large tour group
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form__group">
+                                <!-- needs to be a button, not an <<h3> because it has to submit the form. The form understands that if there is a button, it's the submit button. -->
+                                <button class="btn btn--green">Next step</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" id="footer">
+        <div class="footer__logo-box">
+            <img src="img/logo-green-2x.png" alt="Full logo" class="footer__logo">
+        </div>
+        <div class="row">
+            <div class="col-1-of-2">
+                <div class="footer__navigation">
+                    <ul class="footer__list">
+                        <li class="footer__item"> <a href="#footer" class="footer__link">Company</a></li>
+                        <li class="footer__item"> <a href="#footer" class="footer__link">Contact</a></li>
+                        <li class="footer__item"> <a href="#footer" class="footer__link">Careers</a></li>
+                        <li class="footer__item"> <a href="#footer" class="footer__link">Privacy policy</a></li>
+                        <li class="footer__item"> <a href="#footer" class="footer__link">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-1-of-2">
+                <p class="footer__copyright">
+                    Built by <a href="https://github.com/vanWaarden/" target="_blank" class="footer__link"> Maaike van Waarden</a> during the Udemy course <a href="https://www.udemy.com/advanced-css-and-sass/" target="_blank" class="footer__link"> Advanced CSS and Sass.</a> Copyright &copy; by Jonas Schmedtmann. 
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- pop up als je op book now klikt op een van de buttons van de ronddraaiende kaarten met verschillende tours. maakt niet uit waar je dit plaatst in de html omdat het pas verschijnt als er op de button wordt geklikt. -->
+    <div class="popup" id="popup"> <!-- for the black background. this section is styled in components. The popup id will become the target. Its placed on the href the buttons section tours. when you click book now, you go to this popup.-->
+        <div class="popup__content">
+            <div class="popup__left">
+                <img src="img/nat-8.jpg" alt="Tour photo" class="popup__img">
+                <img src="img/nat-9.jpg" alt="Tour photo" class="popup__img">
+            </div> <!-- .popup__left-->
+            <div class="popup__right">
+                <!-- to close the popup. we add a button which brings the user back to the section tours. &times; is als een soort kruisje in html-->
+                <a href="#section-tours" class="popup__close">&times;</a> 
+                <a href="#book"><h2 class="heading-secondary heading-secondary--green u-margin-bottom-small">Start booking now</h2></a>
+                <h3 class="heading-tertiary u-margin-bottom-small">Important &ndash; Please read these terms before booking</h3>
+                <p class="popup__text">
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ut recusandae est possimus sit
+                    harum reiciendis. Blanditiis, modi beatae. Pariatur laudantium molestias reprehenderit eius
+                    adipisci dignissimos ducimus recusandae, laborum ea excepturi? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ut recusandae est possimus sit
+                    harum reiciendis. Blanditiis, modi beatae. Pariatur laudantium molestias reprehenderit eius
+                    adipisci dignissimos ducimus recusandae, laborum ea excepturi? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ut recusandae est possimus sit
+                    harum reiciendis. Blanditiis, modi beatae. Pariatur laudantium molestias reprehenderit eius
+                    adipisci dignissimos ducimus recusandae, laborum ea excepturi? reprehenderit eius
+                    adipisci dignissimos ducimus recusandae, laborum ea excepturi? 
+                </p>
+                <!-- <a href="#book" class="btn btn--green">Book now</a> -->
+            </div> <!-- .popup__right-->
+        </div> <!-- .popup__content -->
+    </div> <!--.popup-->
+
+     <!-- span voor radio group: is what the button will be. And then hide the input element. Since the label is connected with the input, even if it is hidden, it will still become selected. -->
+
+</body>
+
+</html>
